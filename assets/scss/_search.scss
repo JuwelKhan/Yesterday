@@ -1,0 +1,119 @@
+// =============================================================
+//  Search results
+// =============================================================
+
+.search-term {
+  color: #fff;
+  font-style: normal;
+}
+
+// Scoped through `.search-form` (not just `.banner-search input`/`button`)
+// so specificity beats the generic `.search-form input`/`button` rule in
+// _sidebar.scss regardless of @use order — see the identical note in
+// _header.scss, where relying on file order for equal-specificity selectors
+// silently broke once already.
+.banner-search {
+  display: flex;
+  max-width: 420px;
+  margin-top: 1.25rem;
+
+  .search-form {
+    display: flex;
+    width: 100%;
+  }
+
+  .search-form input {
+    flex: 1;
+    min-width: 0;
+    padding: 0.65rem 0.85rem;
+    border: none;
+    border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+    font-family: inherit;
+    font-size: 0.95rem;
+  }
+
+  .search-form button {
+    padding: 0 1rem;
+    border: none;
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    background: #5a6b7d;
+    color: #fff;
+    font-size: 1.05rem;
+    cursor: pointer;
+
+    &:hover {
+      background: #6b7c8e;
+    }
+  }
+}
+
+.result {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+  padding: 1.5rem;
+
+  .r-thumb {
+    flex: 0 0 120px;
+    width: 120px;
+    height: 90px;
+    border-radius: var(--radius-sm);
+    object-fit: cover;
+  }
+
+  .r-body {
+    min-width: 0;
+  }
+
+  .entry-title {
+    margin: 0.35rem 0 0;
+    font-size: 1.25rem;
+  }
+
+  .r-excerpt {
+    margin: 0.4rem 0 0;
+    font-size: 0.95rem;
+  }
+
+  mark {
+    padding: 0 0.1em;
+    border-radius: 2px;
+    background: #fff3cd;
+    color: inherit;
+  }
+
+  @media (max-width: 575px) {
+    flex-direction: column;
+
+    .r-thumb {
+      flex-basis: auto;
+      width: 100%;
+      height: 180px;
+    }
+  }
+}
+
+.no-results {
+  padding: 3rem 1.5rem;
+  text-align: center;
+
+  i.big {
+    color: var(--brand-soft);
+    font-size: 2.5rem;
+  }
+
+  h2 {
+    margin: 1rem 0 0.5rem;
+    font-size: 1.3rem;
+  }
+
+  p {
+    max-width: 42ch;
+    margin: 0 auto;
+  }
+
+  .search-form {
+    max-width: 360px;
+    margin: 1.5rem auto 0;
+  }
+}

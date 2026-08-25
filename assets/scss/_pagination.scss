@@ -1,0 +1,52 @@
+// =============================================================
+//  Pagination
+// =============================================================
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 0.3rem;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  list-style: none;
+
+  a,
+  .current span {
+    display: inline-block;
+    padding: 0.45rem 0.85rem;
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    color: var(--ink-soft);
+    text-decoration: none;
+  }
+
+  a:hover {
+    background: #d2dae2;
+    color: var(--ink);
+  }
+
+  .current span {
+    background: var(--brand);
+    color: #fff;
+    font-weight: 600;
+    cursor: default;
+  }
+
+  .dots span {
+    display: inline-block;
+    padding: 0.45rem 0.4rem;
+    background: none;
+    color: var(--muted);
+  }
+
+  .next {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+
+    &:hover {
+      background: var(--brand);
+      color: #fff;
+    }
+  }
+}

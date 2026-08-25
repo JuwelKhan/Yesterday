@@ -1,0 +1,110 @@
+// =============================================================
+//  Table of contents (single post + page left rail)
+// =============================================================
+
+// Page layout with an active TOC rail becomes three columns.
+@media (min-width: 992px) {
+  .layout.layout-page.has-rail.toc-active {
+    grid-template-columns: 3fr 6fr 3fr;
+  }
+
+  // Reveal the page rail only once JS confirms a TOC (it adds .toc-active).
+  // Avoids a pre-JS / JS-off flash of a 3-item grid squeezed into 2 columns,
+  // and keeps script-off pages cleanly two-column.
+  .layout-page.has-rail:not(.toc-active) .left-rail {
+    display: none;
+  }
+}
+
+// Give targeted headings room from the top edge when jumped to.
+.entry-content {
+  h2[id],
+  h3[id] {
+    scroll-margin-top: 1.5rem;
+  }
+}
+
+.toc-title {
+  margin: 0 0 1rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--brand);
+}
+
+.toc-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.98rem;
+  counter-reset: toc;
+
+  li {
+    margin: 0;
+  }
+
+  a {
+    position: relative;
+    display: block;
+    padding: 0.4rem 0 0.4rem 1.25rem;
+    border-left: 2px solid var(--line);
+    color: var(--ink-soft);
+    line-height: 1.45;
+    text-decoration: none;
+    transition: color 0.15s ease, border-color 0.15s ease;
+
+    &:hover {
+      color: var(--brand);
+    }
+
+    // Active section, set by the scroll-spy in main.js
+    &.is-active {
+      color: var(--brand);
+      border-left-color: var(--brand);
+      font-weight: 600;
+    }
+  }
+
+  // Main (h2) entries: numbered 1, 2, 3 …
+  > li:not(.toc-h3) > a {
+    counter-increment: toc;
+
+    &::before {
+      content: counter(toc) ". ";
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+    }
+  }
+
+  // Sub (h3) entries: bulleted, text aligned with the h2 title above.
+  > li.toc-h3 > a {
+    padding-left: 3.2rem;
+    font-size: 0.92rem;
+    color: var(--muted);
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: 2.45rem;
+      top: 0.9em;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--brand-soft);
+    }
+
+    &.is-active::before {
+      background: var(--brand);
+    }
+  }
+}
+
+// Respect users who prefer reduced motion.
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

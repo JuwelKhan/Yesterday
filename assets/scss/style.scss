@@ -1,0 +1,27 @@
+/*
+ * Yesterday — a blog-first classic theme
+ * Main stylesheet. Edit the partials in this folder, then recompile with
+ * Dart Sass:
+ *   sass --style=expanded --no-source-map assets/scss/style.scss assets/css/style.css
+ */
+
+@use 'variables';
+@use 'fonts';
+@use 'base';
+@use 'layout';
+@use 'header';
+@use 'author-card';
+@use 'posts';
+@use 'pagination';
+@use 'sidebar';
+@use 'footer';
+@use 'single';
+@use 'toc';
+@use 'archive';
+@use 'search';
+@use 'page';
+@use 'error-404';
+@use 'utilities';
+@use 'dropdown';
+@use 'wp-content';
+@use 'blocks';

@@ -1,0 +1,297 @@
+// =============================================================
+//  Posts — listing, formats, read-more
+// =============================================================
+
+.posts {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
+
+.post-thumb {
+  display: block;
+  overflow: hidden;
+
+  img {
+    display: block;
+    width: 100%;
+    height: 320px;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  &:hover img {
+    transform: scale(1.03);
+  }
+}
+
+.post-thumb-wrap {
+  position: relative;
+}
+
+.format-badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(31, 45, 61, 0.85);
+  color: #fff;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+// "Featured" badge on sticky posts (sits at the start of .entry-meta).
+.entry-meta .sticky-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-right: 0.6rem;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  background: var(--brand);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+// On the dark quote card, invert so it stays legible.
+.posts .format-quote .entry-meta .sticky-badge {
+  background: #fff;
+  color: var(--brand);
+}
+
+// Natural (uncropped) image for the image post format — the photo is the
+// content, so it keeps its real aspect ratio instead of a cropped hero.
+.post-figure {
+  position: relative; // anchor for the format badge
+  margin: 1rem 0 0;
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-sm);
+  }
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+
+  img {
+    display: block;
+    width: 100%;
+    height: 210px;
+    object-fit: cover;
+  }
+}
+
+.entry-meta {
+  font-size: 0.8rem;
+  color: var(--muted);
+
+  a {
+    color: var(--muted);
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .sep {
+    margin: 0 0.5rem;
+  }
+}
+
+.entry-title {
+  margin: 0.5rem 0 0;
+  font-size: 1.5rem;
+  overflow-wrap: break-word;
+
+  &.small {
+    font-size: 1.2rem;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+
+    &:hover {
+      color: var(--brand);
+    }
+  }
+}
+
+.entry-summary {
+  margin-top: 0.5rem;
+  overflow-wrap: break-word;
+
+  p {
+    margin: 0;
+  }
+}
+
+.read-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.75rem;
+  color: var(--brand);
+  font-weight: 500;
+  text-decoration: none;
+
+  i {
+    transition: transform 0.2s ease;
+  }
+
+  &:hover {
+    color: var(--ink);
+
+    i {
+      transform: translateX(3px);
+    }
+  }
+}
+
+// ----- Quote format ----- (listing cards only; single renders as a normal post)
+.posts .format-quote {
+  background-color: var(--brand);
+
+  .entry-meta,
+  .entry-meta span,
+  .entry-meta a {
+    color: var(--brand-soft);
+  }
+
+  // The linked date matches the label beside it; only hover lightens it.
+  .entry-meta a:hover {
+    color: #fff;
+  }
+
+  blockquote {
+    margin: 1rem 0 0;
+    font-size: 1.4rem;
+    font-style: italic;
+    line-height: 1.5;
+    color: #fff;
+
+    footer {
+      margin-top: 0.75rem;
+      color: var(--brand-soft);
+      font-size: 0.9rem;
+      font-style: normal;
+    }
+  }
+}
+
+// ----- Link format ----- (listing card only; single renders as a normal post)
+.posts .format-link {
+  background-color: #f4f7fa;
+}
+
+// ----- Status format -----
+// The quote format's "the post is the card" treatment, on a muted bluish slate.
+// Title-less; the excerpt is the focus, truncated with a read-more (and the
+// linked date) leading into the post. The card is dark, so meta/content/links
+// invert to light, mirroring the quote card.
+.posts .format-status {
+  background-color: var(--status);
+
+  .entry-meta,
+  .entry-meta span,
+  .entry-meta a {
+    color: var(--brand-soft-light);
+  }
+
+  .entry-meta a:hover {
+    color: #fff;
+  }
+
+  .entry-summary {
+    margin-top: 0.85rem;
+    font-size: 1.3rem;
+    line-height: 1.55;
+    color: #fff;
+  }
+
+  .read-more {
+    color: var(--brand-soft-light);
+
+    &:hover {
+      color: #fff;
+    }
+  }
+}
+
+// Invert the "Featured" badge so it stays legible on the dark status card.
+.posts .format-status .entry-meta .sticky-badge {
+  background: #fff;
+  color: var(--brand);
+}
+
+// ----- Chat format -----
+// A conversation preview: the first lines as stacked message bubbles, an
+// ellipsis when there's more, then a read-more into the full transcript.
+.format-chat {
+  .entry-content {
+    margin-top: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .entry-content p {
+    margin: 0;
+    padding: 0.5rem 0.85rem;
+    background: var(--chip);
+    border-radius: var(--radius-sm);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: var(--ink-soft);
+  }
+
+  // Alternate the two speakers' bubbles: odd lines keep --chip, even lines get
+  // a darker existing grey (the pagination-hover tone) so a back-and-forth
+  // conversation reads as two voices. The ellipsis is excluded.
+  .entry-content p:nth-child(even):not(.chat-ellipsis) {
+    background: #d2dae2;
+  }
+
+  // The "…" marker is not a bubble — just muted dots.
+  .entry-content .chat-ellipsis {
+    padding: 0 0.85rem;
+    background: none;
+    color: var(--muted);
+    font-size: 1.2rem;
+    letter-spacing: 0.15em;
+    line-height: 1;
+  }
+}
+
+// ----- Embeds -----
+.ratio {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%;
+
+  iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+}
+
+audio {
+  width: 100%;
+}

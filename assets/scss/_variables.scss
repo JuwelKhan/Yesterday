@@ -1,0 +1,47 @@
+// Design tokens — edit values here.
+// SCSS variables (compile-time) for use inside partials,
+// plus the matching CSS custom properties (runtime) emitted in :root.
+
+$bg: #dfe3e8;
+$surface: #ffffff;
+$ink: #1f2d3d;
+$ink-soft: #3e4c59;
+$muted: #5f7081;
+$line: #e3e8ee;
+$brand: #2c3e50;
+$brand-dark: #22303f;
+$brand-soft: #9fb3c8;
+$brand-soft-light: #b8c6d6;
+$status: #4c5f72;
+$chip: #eef1f4;
+$radius: 16px;
+$radius-sm: 10px;
+$maxw: 1320px;
+$gap: 1.5rem;
+
+:root {
+  --bg: #dfe3e8;
+  --surface: #ffffff;
+  --ink: #1f2d3d;
+  --ink-soft: #3e4c59;
+  --muted: #5f7081;
+  --line: #e3e8ee;
+  --brand: #2c3e50;
+  --brand-dark: #22303f;
+  --brand-soft: #9fb3c8;
+  // Lighter than --brand-soft; reads better on the mid-tone status card.
+  --brand-soft-light: #b8c6d6;
+  // The status format's signature colour (listing card background + single-view
+  // left accent).
+  --status: #4c5f72;
+  --chip: #eef1f4;
+  --radius: 16px;
+  --radius-sm: 10px;
+  --maxw: 1320px;
+  --gap: 1.5rem;
+
+  // Typography (Customizer overrides these; default = system stack, no webfont
+  // request). Headings follow the body font unless a preset/custom sets them.
+  --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-heading: var(--font-body);
+}

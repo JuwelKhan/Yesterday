@@ -1,0 +1,346 @@
+// =============================================================
+//  Static pages — layout, contact, content typography, about hero
+// =============================================================
+
+.layout.layout-page {
+  grid-template-columns: 1fr;
+
+  @media (min-width: 992px) {
+    grid-template-columns: 8fr 4fr;
+  }
+}
+
+.page-header-card {}
+
+.page-title {
+  margin: 0;
+  font-size: 2rem;
+}
+
+.page-title-lg {
+  margin: 0;
+  font-size: 2.1rem;
+  line-height: 1.25;
+}
+
+.page-intro {
+  max-width: 60ch;
+  margin: 0.8rem 0 0;
+  color: var(--ink-soft);
+  font-size: 1.05rem;
+}
+
+.page-updated {
+  margin: 0.6rem 0 0;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+// ----- Contact layout -----
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--gap);
+
+  @media (min-width: 768px) {
+    grid-template-columns: 1.4fr 1fr;
+  }
+}
+
+.contact-form {
+  label {
+    display: block;
+    margin-bottom: 0.3rem;
+    color: var(--ink);
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+
+  input,
+  textarea {
+    width: 100%;
+    margin-bottom: 1.1rem;
+    padding: 0.65rem 0.8rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: #fff;
+    font-family: inherit;
+    font-size: 0.95rem;
+
+    &:focus {
+      outline: none;
+      border-color: var(--brand);
+      box-shadow: 0 0 0 3px rgba(44, 62, 80, 0.08);
+    }
+  }
+
+  textarea {
+    min-height: 150px;
+    resize: vertical;
+  }
+
+  .btn-solid {
+    width: auto;
+    padding-inline: 1.75rem;
+  }
+}
+
+.contact-info {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+    padding: 0.85rem 0;
+    border-bottom: 0.5px solid var(--line);
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  .ci-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 40px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--chip);
+    color: var(--brand);
+    font-size: 1.1rem;
+  }
+
+  .ci-label {
+    color: var(--muted);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .ci-value {
+    display: block;
+    margin-top: 0.1rem;
+    color: var(--ink);
+  }
+
+  a.ci-value:hover {
+    color: var(--brand);
+  }
+}
+
+.contact-social {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: var(--chip);
+    color: var(--brand);
+    font-size: 1.15rem;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+
+    &:hover {
+      background: var(--brand);
+      color: #fff;
+    }
+  }
+}
+
+.contact-map {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  width: 100%;
+  height: 260px;
+  border-radius: var(--radius);
+  background: linear-gradient(135deg, #e3e8ee, #cfd8e0);
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+// ----- Long-form content typography -----
+.entry-content {
+  // Wrap long words/URLs and keep media within the column.
+  overflow-wrap: break-word;
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  // Preformatted text keeps its formatting and scrolls horizontally when a line
+  // is too long (best practice for code/verse) — never cut, never widens the
+  // page. The grid column has min-width:0, so the pre stays inside its column.
+  pre {
+    max-width: 100%;
+    overflow-x: auto;
+    scrollbar-width: thin;
+  }
+
+  code {
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
+    background: var(--chip);
+    font-size: 0.9em;
+  }
+
+  pre code {
+    padding: 0;
+    background: none;
+  }
+
+  hr {
+    margin: 2.5rem 0;
+    border: none;
+    border-top: 0.5px solid var(--line);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+  }
+
+  th,
+  td {
+    padding: 0.65rem 0.85rem;
+    border-bottom: 0.5px solid var(--line);
+    text-align: left;
+  }
+
+  thead th {
+    background: var(--chip);
+    color: var(--ink);
+    font-weight: 600;
+  }
+}
+
+// ----- About hero -----
+.about-hero-card {
+  background: #3a4a5e;
+  background-image: linear-gradient(to bottom right, #34465c 0%, #4a5b73 100%);
+}
+
+.about-hero {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  @media (min-width: 600px) {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  img {
+    flex: 0 0 auto;
+    width: 100%;
+    max-width: 220px;
+    aspect-ratio: 4 / 5;
+    border-radius: var(--radius-sm);
+    object-fit: cover;
+  }
+
+  .about-lead {
+    h1 {
+      margin: 0 0 0.5rem;
+      color: #fff;
+      font-size: 1.9rem;
+    }
+
+    p {
+      margin: 0;
+      color: #cdd9e5;
+      font-size: 1.1rem;
+      line-height: 1.7;
+    }
+  }
+
+  .about-meta {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.9rem;
+
+    a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+      font-size: 1.1rem;
+      text-decoration: none;
+      transition: background 0.2s;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.25);
+      }
+    }
+  }
+}
+
+// =============================================================
+//  Featured-image hero (WordPress: shown when a Page has a
+//  featured image; the title overlays the image)
+// =============================================================
+
+.page-hero {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  min-height: 320px;
+  padding: 2.5rem;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--brand);
+
+  // The featured image fills the card.
+  img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  // Dark gradient so the title stays readable over any image.
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(31, 45, 61, 0.85) 0%, rgba(31, 45, 61, 0.25) 60%, rgba(31, 45, 61, 0.1) 100%);
+  }
+
+  .page-hero-inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  .page-hero-title {
+    margin: 0;
+    color: #fff;
+    font-size: 2.2rem;
+    line-height: 1.2;
+  }
+
+  .page-hero-meta {
+    margin: 0.6rem 0 0;
+    max-width: 60ch;
+    color: #e7edf3;
+    font-size: 1.05rem;
+  }
+}

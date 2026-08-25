@@ -1,0 +1,237 @@
+// =============================================================
+//  Header — branding, nav, search, social, mobile
+// =============================================================
+
+.site-header {
+  background-color: var(--brand);
+  // Closed deep fly-out submenus are still laid out off to the right (they only
+  // fade in on hover), so a 10-level menu would extend past the viewport and
+  // create a phantom horizontal page scrollbar on load. Clip the x-axis to kill
+  // it. `clip` — not `hidden` — so vertical dropdowns still overflow downward
+  // and `position: sticky` elsewhere is unaffected (no scroll container).
+  overflow-x: clip;
+
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-block: 1rem;
+  }
+}
+
+.site-branding {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.75rem;
+}
+
+// Custom logo (Appearance → Customize → Site Identity). Constrained so any
+// uploaded image sits comfortably in the dark header next to the tagline.
+.custom-logo-link {
+  display: inline-flex;
+  align-items: center;
+}
+
+.custom-logo {
+  display: block;
+  width: auto;
+  height: auto;
+  max-height: 48px;
+}
+
+.site-title {
+  margin: 0;
+  font-size: 2rem;
+
+  a {
+    color: #fff;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+  }
+}
+
+.site-description {
+  padding-left: 0.75rem;
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--brand-soft);
+  font-size: 0.9rem;
+}
+
+.primary-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2rem;
+}
+
+.menu {
+  display: flex;
+  // Many items wrap to a second/third row as WHOLE items; the row-gap keeps
+  // those wrapped rows tidy without pushing them too far apart.
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem 1.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  // A menu item never breaks across lines — long labels stay on one line.
+  > li > a,
+  > li > .dropdown-toggle {
+    white-space: nowrap;
+  }
+
+  a {
+    color: #cdd9e5;
+    font-size: 0.95rem;
+    text-decoration: none;
+
+    &:hover {
+      color: #fff;
+    }
+  }
+
+  // Highlight the current top-level item (white in the dark bar). Scoped to the
+  // DIRECT child link so it never leaks into a dropdown's links on the white
+  // submenu card (which would make them white-on-white until hovered).
+  > .current > a {
+    color: #fff;
+  }
+
+  // A top-level parent of the current page is a disclosure button, not a link;
+  // highlight it the same way.
+  > .current > .dropdown-toggle {
+    color: #fff;
+  }
+}
+
+// ----- Header search -----
+// Selectors below are scoped through `.search-form` (not just `.header-search
+// input`/`button`) so their specificity reliably beats the generic
+// `.search-form input`/`button` rule in _sidebar.scss regardless of @use
+// order — equal-specificity selectors previously let whichever partial loads
+// later in style.scss silently win, which is exactly what made this
+// button's translucent background disappear behind the sidebar's solid one.
+.header-search {
+  display: flex;
+
+  .search-form {
+    display: flex;
+  }
+
+  .search-form input {
+    min-width: 160px;
+    padding: 0.6rem 0.85rem;
+    border: none;
+    border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+    font-size: 0.92rem;
+  }
+
+  .search-form button {
+    padding: 0 0.95rem;
+    border: none;
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    // A translucent overlay over the brand-coloured header, so the button tracks
+    // the palette / accent colour instead of a hardcoded slate.
+    background-color: rgba(255, 255, 255, 0.18);
+    color: #fff;
+    font-size: 1.05rem;
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.28);
+    }
+  }
+}
+
+// ----- Header social icons -----
+.header-social {
+  display: flex;
+  gap: 0.4rem;
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    color: #cdd9e5;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.22);
+      color: #fff;
+    }
+  }
+}
+
+// ----- Mobile nav toggle -----
+.nav-toggle {
+  display: none;
+  padding: 0.15rem 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 8px;
+  background: none;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+// ----- Mobile layout -----
+@media (max-width: 991px) {
+  .nav-toggle {
+    display: inline-flex;
+  }
+
+  .site-header .container {
+    position: relative;
+  }
+
+  .primary-nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+    padding: 1rem;
+    background: var(--brand);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.18);
+
+    &.open {
+      display: flex;
+    }
+  }
+
+  .menu {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+
+  .header-search .search-form input {
+    flex: 1;
+  }
+
+  .header-social {
+    justify-content: center;
+    margin-top: 0.25rem;
+  }
+
+  .site-description {
+    padding-left: 0;
+    border-left: none;
+  }
+}

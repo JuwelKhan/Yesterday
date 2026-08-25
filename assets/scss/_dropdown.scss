@@ -1,0 +1,222 @@
+// =============================================================
+//  Header dropdown (Pages menu) — multi-level
+// =============================================================
+
+.menu {
+  .has-dropdown {
+    position: relative;
+  }
+
+  .dropdown-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0;
+    border: none;
+    background: none;
+    color: #cdd9e5;
+    font: inherit;
+    font-size: 0.95rem;
+    cursor: pointer;
+
+    &:hover {
+      color: #fff;
+    }
+
+    .caret {
+      font-size: 0.8em;
+      transition: transform 0.2s ease;
+    }
+  }
+
+  .has-dropdown.open > .dropdown-toggle .caret {
+    transform: rotate(180deg);
+  }
+}
+
+.submenu {
+  min-width: 210px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    position: relative;
+    padding: 0;
+    border: none;
+  }
+
+  a,
+  .dropdown-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.55rem 1.1rem;
+    border: none;
+    background: none;
+    color: var(--ink-soft);
+    font-family: inherit;
+    font-size: 0.9rem;
+    text-align: left;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+
+    &:hover {
+      background: var(--chip);
+      color: var(--brand);
+    }
+  }
+
+  .dropdown-toggle .caret {
+    transition: transform 0.2s ease;
+  }
+
+  // "You are here" — the current page when it sits inside a dropdown.
+  .current > a {
+    color: var(--brand);
+  }
+}
+
+.submenu-inner {
+  padding: 0;
+}
+
+// ===== Desktop dropdown =====
+@media (min-width: 992px) {
+  // Level 1: drops below the toggle; 12px top padding is the hover bridge.
+  .menu > .has-dropdown > .submenu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 60;
+    padding-top: 12px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px);
+    transition: opacity 0.18s ease, transform 0.18s ease, visibility 0s linear 0.18s;
+  }
+
+  // Nested levels open to the right; 4px left padding is the hover bridge.
+  .submenu .has-dropdown > .submenu {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    z-index: 60;
+    padding-left: 4px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-6px);
+    transition: opacity 0.18s ease, transform 0.18s ease, visibility 0s linear 0.18s;
+  }
+
+  // The white card sits inside .submenu-inner so rounding never clips the
+  // nested panels (which are children of .submenu, not .submenu-inner).
+  .submenu-inner {
+    border-radius: var(--radius-sm);
+    background: #ffffff;
+    box-shadow: 0 12px 28px rgba(31, 45, 61, 0.16);
+
+    // Round the hover fill on the first/last rows so corners stay clean
+    // (without overflow:hidden, which would clip nested panels).
+    > li:first-child > a:hover,
+    > li:first-child > .dropdown-toggle:hover {
+      border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+    }
+
+    > li:last-child > a:hover,
+    > li:last-child > .dropdown-toggle:hover {
+      border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+    }
+
+    // A lone item is both first AND last child, so both rules above apply and
+    // the last would win (square top, rounded bottom). Round all four corners
+    // instead — must stay after the two rules above so it takes precedence.
+    > li:only-child > a:hover,
+    > li:only-child > .dropdown-toggle:hover {
+      border-radius: var(--radius-sm);
+    }
+  }
+
+  // Reveal when open. `.open` is applied by JS for both hover and click/
+  // keyboard activation (main.js) so there is a single source of truth for
+  // visibility — a plain CSS `:hover` rule here would fight the JS-driven
+  // open state (e.g. the menu re-appearing on click-to-close because the
+  // pointer was still hovering it).
+  .menu .has-dropdown.open > .submenu {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(0, 0);
+    transition: opacity 0.18s ease, transform 0.18s ease, visibility 0s;
+  }
+
+  // Nested toggles point their caret to the right.
+  .submenu .has-dropdown > .dropdown-toggle .caret {
+    transform: rotate(-90deg);
+  }
+
+  // ----- Keep deep fly-outs inside the viewport -----
+
+  // A long *leaf* panel (one with no further cascade) scrolls inside itself
+  // rather than pushing the page down. Panels that still cascade are left
+  // un-clipped so their child fly-outs can escape.
+  .submenu-inner:not(:has(.has-dropdown)) {
+    max-height: min(70vh, 24rem);
+    overflow-y: auto;
+  }
+
+  // A top-level dropdown that would overflow the right edge is right-aligned
+  // (it already drops downward). JS toggles `.flip-down` when it measures a
+  // collision.
+  .menu > .has-dropdown.flip-down > .submenu {
+    left: auto;
+    right: 0;
+  }
+
+  // A nested fly-out that can't fit to the right opens downward from under the
+  // parent row instead, right-aligned so it stays on screen.
+  .submenu .has-dropdown.flip-down > .submenu {
+    top: 100%;
+    left: auto;
+    right: 0;
+    padding-top: 6px;
+    padding-left: 0;
+  }
+
+  // Its caret points back down to signal the changed direction.
+  .submenu .has-dropdown.flip-down > .dropdown-toggle .caret {
+    transform: rotate(0deg);
+  }
+}
+
+// ===== Mobile: inline expanded lists =====
+@media (max-width: 991px) {
+  .submenu {
+    display: none;
+
+    a,
+    .dropdown-toggle {
+      padding: 0.4rem 0;
+      color: #cdd9e5;
+
+      &:hover {
+        background: none;
+        color: #fff;
+      }
+    }
+  }
+
+  .submenu-inner {
+    padding-left: 1rem;
+  }
+
+  .has-dropdown.open > .submenu {
+    display: block;
+  }
+
+  .submenu .has-dropdown.open > .dropdown-toggle .caret {
+    transform: rotate(180deg);
+  }
+}

@@ -1,0 +1,686 @@
+// =============================================================
+//  Core block styles — tuned to the Yesterday design.
+//  Classic theme (no theme.json), so we make the common editor
+//  blocks read well within our colour scheme. Scoped to
+//  .entry-content so they override core and stay contained.
+// =============================================================
+
+.entry-content {
+
+  // ----- Buttons -----
+  .wp-block-button {
+    margin-bottom: 1rem;
+  }
+
+  .wp-block-button__link {
+    display: inline-block;
+    padding: 0.6rem 1.4rem;
+    border-radius: 999px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+  }
+
+  // Filled buttons without a user-chosen colour → brand (keeps text readable).
+  .wp-block-button:not(.is-style-outline) .wp-block-button__link:not(.has-background) {
+    background-color: var(--brand);
+
+    &:hover {
+      background-color: var(--brand-dark);
+    }
+  }
+
+  .wp-block-button:not(.is-style-outline) .wp-block-button__link:not(.has-text-color) {
+    color: #fff;
+  }
+
+  // Outline style.
+  .wp-block-button.is-style-outline .wp-block-button__link {
+    background-color: transparent;
+    border: 1px solid currentColor;
+
+    &:not(.has-text-color) {
+      color: var(--brand);
+    }
+  }
+
+  // Squared style.
+  .wp-block-button.is-style-squared .wp-block-button__link {
+    border-radius: var(--radius-sm);
+  }
+
+  // ----- Quote & Pullquote -----
+  // Only the DEFAULT variations are themed here. The editor's "Large" quote and
+  // "Solid Color" pullquote ship their own core styles (bigger text; a filled,
+  // borderless, centred block), so we scope our rules out of those and let core
+  // handle them — adding just a light theme touch rather than fighting it.
+  // Default quote — a light-grey panel: the left edge stays square with a solid
+  // brand rule, the right corners are rounded. (Scoped out of the Large style.)
+  .wp-block-quote:not(.is-style-large) {
+    margin: 1.75rem 0;
+    padding: 1.25rem 1.5rem;
+    background: var(--chip);
+    border-left: 4px solid var(--brand);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    color: var(--ink-soft);
+    font-style: italic;
+
+    // Citation hugs the left edge, introduced by a long dash.
+    cite,
+    .wp-block-quote__citation {
+      text-align: left;
+
+      &::before {
+        content: "\2014\00a0";
+      }
+    }
+  }
+
+  // Large: let core's bigger text stand, but clear the generic post-blockquote
+  // left rule (from _single.scss) that would otherwise still border it.
+  .wp-block-quote.is-style-large {
+    border-left: none;
+    padding-left: 0;
+  }
+
+  // Citation tone, shared by every quote variation (incl. the Large style).
+  .wp-block-quote {
+    cite,
+    .wp-block-quote__citation {
+      display: block;
+      margin-top: 0.6rem;
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-style: normal;
+    }
+  }
+
+  // A pullquote's inner <blockquote> would otherwise inherit the post
+  // blockquote's left rule — neutralise it for both pullquote styles.
+  .wp-block-pullquote blockquote {
+    margin: 0;
+    padding: 0;
+    border: none;
+  }
+
+  .wp-block-pullquote:not(.is-style-solid-color) {
+    margin: 2rem 0;
+    padding: 1.75rem 0;
+    border-top: 2px solid var(--line);
+    border-bottom: 2px solid var(--line);
+    text-align: center;
+
+    p {
+      margin: 0;
+      font-size: 1.5rem;
+      font-style: italic;
+      color: var(--ink);
+    }
+
+    cite {
+      display: block;
+      margin-top: 0.6rem;
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-style: normal;
+    }
+  }
+
+  // Solid Color is core-styled (background, centred, borderless). Round the
+  // corners and trim core's very tall default padding to the theme's scale.
+  .wp-block-pullquote.is-style-solid-color {
+    padding-block: 3rem;
+    border-radius: var(--radius);
+  }
+
+  // ----- Table block -----
+  .wp-block-table {
+    margin: 1.5rem 0;
+    overflow-x: auto;
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+    }
+
+    th,
+    td {
+      padding: 0.65rem 0.85rem;
+      border: 1px solid var(--line);
+    }
+
+    thead th {
+      background: var(--chip);
+      font-weight: 600;
+    }
+
+    // Stripes variant — core sets border-collapse:inherit + border-spacing:0;
+    // our collapse rule would win without this reset.
+    &.is-style-stripes table {
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+
+    &.is-style-stripes tbody tr:nth-child(odd) td {
+      background-color: var(--surface);
+    }
+  }
+
+  // ----- Separator -----
+  .wp-block-separator {
+    height: 0;
+    margin: 2.5rem auto;
+    border: none;
+    border-top: 1px solid var(--line);
+
+    &:not(.is-style-wide):not(.alignwide):not(.alignfull) {
+      max-width: 6rem;
+    }
+  }
+
+  // ----- Code / Preformatted -----
+  // Preserve exact layout (ASCII art, indentation) and scroll only when a line
+  // is too long — the long-standing default-theme convention. Core forces
+  // white-space:pre-wrap on these blocks (which wraps & kills the scroll), so
+  // we override back to `pre` to match how classic <pre> blocks behave here.
+  .wp-block-code,
+  .wp-block-preformatted {
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius-sm);
+    background: #1f2d3d;
+    color: #e7edf3;
+    font-size: 0.9rem;
+    white-space: pre;
+    overflow-x: auto;
+
+    code {
+      padding: 0;
+      background: none;
+      color: inherit;
+      white-space: inherit;
+    }
+  }
+
+  // ----- Verse -----
+  // It's a <pre>, so the base .entry-content pre rule paints it dark; override
+  // to a light poetry block (else dark text on dark bg = invisible).
+  .wp-block-verse {
+    font-family: inherit;
+    font-style: italic;
+    white-space: pre-wrap;
+    padding: 1rem 1.5rem;
+    border-left: 3px solid var(--brand);
+    border-radius: var(--radius-sm);
+    margin: 1.5rem 0;
+    background: var(--chip);
+    color: var(--ink);
+    font-size: 1rem;
+    line-height: 1.8;
+  }
+
+  // ----- Cover -----
+  // Even vertical spacing (grouping a note to an adjacent block is
+  // content-dependent, so we keep neutral, consistent spacing).
+  .wp-block-cover,
+  .wp-block-cover-image {
+    margin-block: 1.75rem;
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  // ----- Media blocks -----
+  .wp-block-audio audio {
+    width: 100%;
+  }
+
+  .wp-block-video video {
+    max-width: 100%;
+    height: auto;
+  }
+
+  // ----- Spacing for grouped blocks -----
+  // Use margin-block (vertical only) so a floated/aligned block keeps the side
+  // margin that .alignleft/.alignright give it (a `margin: x 0` shorthand would
+  // reset the horizontal margin to 0 and let wrapped text touch the block).
+  .wp-block-columns,
+  .wp-block-media-text {
+    margin-block: 1.5rem;
+  }
+
+  .wp-block-media-text.has-background {
+    border-radius: var(--radius-sm);
+
+    .wp-block-media-text__content,
+    .wp-block-media-text__media {
+      padding: 1.25rem 1.5rem;
+    }
+  }
+
+  // ----- Group block -----
+  // Core adds no padding; add it only when a background is set so text
+  // doesn't sit flush against the coloured edge.
+  .wp-block-group.has-background {
+    padding: 1.25rem 1.5rem;
+    border-radius: var(--radius-sm);
+  }
+
+  // Single column with its own background — core pads the parent columns block
+  // but not an individual column, so add it here (a bit tighter, columns are
+  // narrow) for consistency with the group/media-text treatment above.
+  .wp-block-column.has-background {
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius-sm);
+  }
+
+  // ----- Images & galleries spacing -----
+  // In-flow images/galleries get vertical rhythm; floated (aligned) ones are
+  // excluded so they keep the full margin from .alignleft/.alignright (side +
+  // top), so wrapped text never touches them.
+  figure.wp-block-image:not(.alignleft):not(.alignright),
+  .wp-block-gallery:not(.alignleft):not(.alignright) {
+    margin-block: 1.75rem;
+  }
+
+  .wp-block-image figcaption {
+    margin-top: 0.5rem;
+    color: var(--muted);
+    font-size: 0.82rem;
+    text-align: center;
+  }
+
+  // Reset the inner gallery wrapper + items so the only gap between items is the
+  // gallery's own (from core).
+  .blocks-gallery-grid {
+    margin: 0;
+    padding: 0;
+  }
+
+  .wp-block-gallery figure,
+  .blocks-gallery-item {
+    margin: 0;
+  }
+
+  .blocks-gallery-item__caption,
+  .blocks-gallery-caption {
+    margin-top: 0.4rem;
+    color: var(--muted);
+    font-size: 0.8rem;
+    line-height: 1.4;
+  }
+
+  // ----- Search block -----
+  .wp-block-search__input {
+    padding: 0.55rem 0.8rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: #fff;
+    font-family: inherit;
+
+    &:focus {
+      outline: none;
+      border-color: var(--brand);
+    }
+  }
+
+  .wp-block-search__button {
+    margin-left: 0.4rem;
+    padding: 0.55rem 1rem;
+    border: 0;
+    border-radius: var(--radius-sm);
+    background: var(--brand);
+    color: #fff;
+    cursor: pointer;
+
+    &:hover {
+      background: var(--brand-dark);
+    }
+  }
+
+  // ----- File block -----
+  .wp-block-file {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 1.5rem 0;
+
+    .wp-block-file__button {
+      padding: 0.4rem 1rem;
+      border-radius: var(--radius-sm);
+      background: var(--brand);
+      color: #fff;
+      text-decoration: none;
+
+      &:hover {
+        background: var(--brand-dark);
+      }
+    }
+  }
+
+  // ----- Embed block -----
+  .wp-block-embed {
+    margin: 1.5rem 0;
+
+    .wp-block-embed__wrapper {
+      position: relative;
+      width: 100%;
+    }
+
+    // Responsive aspect-ratio wrapper (YouTube, Vimeo, etc.)
+    &.wp-has-aspect-ratio .wp-block-embed__wrapper {
+      &::before {
+        content: "";
+        display: block;
+      }
+
+      iframe,
+      video {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    &.wp-embed-aspect-16-9 .wp-block-embed__wrapper::before {
+      padding-top: 56.25%;
+    }
+
+    &.wp-embed-aspect-4-3 .wp-block-embed__wrapper::before {
+      padding-top: 75%;
+    }
+
+    &.wp-embed-aspect-21-9 .wp-block-embed__wrapper::before {
+      padding-top: 42.86%;
+    }
+
+    // Non-video rich embeds (Twitter, Facebook, etc.)
+    &:not(.wp-has-aspect-ratio) .wp-block-embed__wrapper {
+      iframe,
+      blockquote {
+        max-width: 100%;
+      }
+    }
+
+    // Plain-text URL fallback (Facebook/Instagram can't load in local dev —
+    // on live they render via SDK; here we just tidy up the raw URL display)
+    &.wp-block-embed-facebook,
+    &.wp-block-embed-instagram,
+    &.wp-block-embed-twitter {
+      .wp-block-embed__wrapper:not(:has(iframe)):not(:has(blockquote)) {
+        padding: 1rem 1.25rem;
+        border: 1px dashed var(--line);
+        border-radius: var(--radius-sm);
+        background: var(--surface);
+        font-size: 0.85rem;
+        color: var(--muted);
+        word-break: break-all;
+
+        &::before {
+          content: "Embed (renders on live site): ";
+          display: block;
+          font-weight: 500;
+          margin-bottom: 0.25rem;
+          color: var(--ink);
+        }
+      }
+    }
+
+    figcaption {
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+      text-align: center;
+    }
+  }
+
+  // ----- Calendar block -----
+  .wp-block-calendar {
+    margin: 1.5rem 0;
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      padding: 0.4rem;
+      border: 1px solid var(--line);
+      text-align: center;
+    }
+
+    thead th {
+      background: var(--chip);
+    }
+
+    caption {
+      padding: 0.4rem 0;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    a {
+      color: var(--brand);
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .wp-calendar-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 0.4rem;
+      font-size: 0.85rem;
+    }
+  }
+
+  // ----- Tag cloud block (pills; core's per-tag font-size is kept) -----
+  .wp-block-tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin: 1.5rem 0;
+
+    a {
+      display: inline-block;
+      padding: 0.2rem 0.7rem;
+      border-radius: 999px;
+      background: var(--chip);
+      color: var(--ink-soft);
+      text-decoration: none;
+
+      &:hover {
+        background: var(--brand);
+        color: #fff;
+      }
+    }
+  }
+
+  // ----- List-style dynamic blocks: consistent spacing + link colour -----
+  .wp-block-categories,
+  .wp-block-archives,
+  .wp-block-latest-posts,
+  .wp-block-rss,
+  .wp-block-latest-comments {
+    margin: 1.5rem 0;
+    padding-left: 0;
+    list-style: none;
+
+    li {
+      margin: 0.35rem 0;
+    }
+
+    a {
+      color: var(--ink-soft);
+      text-decoration: none;
+
+      &:hover {
+        color: var(--brand);
+      }
+    }
+  }
+
+  // Social links: give the block breathing room and a vertical gap so wrapped
+  // rows (and stacked social blocks) don't touch.
+  .wp-block-social-links {
+    margin: 1rem 0;
+    row-gap: 0.5rem;
+  }
+
+  // Page List block — a nav-style list, so drop the bullets and flush the top
+  // level (nested pages keep their indent for hierarchy). Match link colour.
+  .wp-block-page-list {
+    margin: 1.5rem 0;
+    padding-left: 0;
+    list-style: none;
+
+    a {
+      color: var(--ink-soft);
+      text-decoration: none;
+
+      &:hover {
+        color: var(--brand);
+      }
+    }
+  }
+
+  // ----- "Theme" (FSE) blocks that can appear in post content -----
+  // Match the simple link/meta/pagination bits to the design; the heavy
+  // interactive blocks (Navigation mobile overlay, full Comments block, Query
+  // Loop layout) intentionally keep core defaults.
+  .wp-block-post-title a,
+  .wp-block-site-title a {
+    color: var(--ink);
+    text-decoration: none;
+
+    &:hover {
+      color: var(--brand);
+    }
+  }
+
+  .wp-block-post-date,
+  .wp-block-post-author,
+  .wp-block-post-terms {
+    color: var(--muted);
+    font-size: 0.85rem;
+
+    a {
+      color: var(--muted);
+      text-decoration: none;
+
+      &:hover {
+        color: var(--brand);
+      }
+    }
+  }
+
+  .wp-block-read-more,
+  .wp-block-loginout a {
+    color: var(--brand);
+    font-weight: 500;
+    text-decoration: none;
+
+    &:hover {
+      color: var(--ink);
+    }
+  }
+
+  .wp-block-avatar img {
+    border-radius: 50%;
+  }
+
+  // Navigation links (mobile hamburger overlay stays on core's JS/CSS).
+  .wp-block-navigation a {
+    color: var(--ink);
+    text-decoration: none;
+
+    &:hover {
+      color: var(--brand);
+    }
+  }
+
+  // Query Loop pagination → the theme's pill look (chip base so it reads on the
+  // white card background).
+  .wp-block-query-pagination {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem;
+    margin-top: 1.25rem;
+
+    a,
+    .page-numbers {
+      padding: 0.4rem 0.8rem;
+      border-radius: var(--radius-sm);
+      background: var(--chip);
+      color: var(--ink-soft);
+      text-decoration: none;
+    }
+
+    a:hover {
+      background: var(--brand);
+      color: #fff;
+    }
+
+    .page-numbers.current {
+      background: var(--brand);
+      color: #fff;
+      font-weight: 600;
+    }
+  }
+
+  // ----- Dropdown selects (archives/categories "dropdown" variant, and any
+  //       <select> in content) — match the theme's inputs, with a custom arrow.
+  select {
+    max-width: 100%;
+    padding: 0.5rem 2.2rem 0.5rem 0.8rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background-color: #fff;
+    background-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='16'%20height='16'%20viewBox='0%200%2016%2016'%20fill='none'%20stroke='%235f7081'%20stroke-width='2'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%3Cpath%20d='M4%206l4%204%204-4'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.7rem center;
+    background-size: 0.85rem;
+    color: var(--ink);
+    font-family: inherit;
+    font-size: 0.95rem;
+    line-height: 1.3;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+
+    &:focus {
+      outline: none;
+      border-color: var(--brand);
+      box-shadow: 0 0 0 3px rgba(44, 62, 80, 0.08);
+    }
+  }
+
+}
+
+// Quote post format — its content is a classic <blockquote> (no .wp-block-quote
+// class), so it misses the default quote-panel rule above. Give the single-view
+// quote the same panel style so it matches our default quote.
+.single-format-quote .entry-content blockquote {
+  margin: 1.75rem 0;
+  padding: 1.25rem 1.5rem;
+  background: var(--chip);
+  border-left: 4px solid var(--brand);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  color: var(--ink-soft);
+  font-style: italic;
+
+  cite {
+    display: block;
+    margin-top: 0.6rem;
+    color: var(--muted);
+    font-size: 0.85rem;
+    font-style: normal;
+    text-align: left;
+
+    &::before {
+      content: "\2014\00a0";
+    }
+  }
+}

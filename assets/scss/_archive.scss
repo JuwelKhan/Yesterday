@@ -1,0 +1,41 @@
+// =============================================================
+//  Archive header banner
+// =============================================================
+
+.archive-header {
+  background: #3a4a5e;
+  background-image: linear-gradient(to bottom right, #34465c 0%, #4a5b73 100%);
+}
+
+.archive-title {
+  margin: 0;
+  font-size: 2rem;
+  line-height: 1.25;
+  color: #fff;
+
+  .archive-prefix {
+    color: var(--brand-soft);
+    font-weight: 400;
+  }
+}
+
+.archive-desc {
+  margin: 0.8rem 0 0;
+  max-width: 60ch;
+  font-size: 1rem;
+  color: #cdd9e5;
+}
+
+.archive-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 1.1rem 0 0;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}

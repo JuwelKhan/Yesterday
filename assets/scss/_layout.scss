@@ -1,0 +1,58 @@
+// =============================================================
+//  Layout — container, grid, cards, spacing helpers
+// =============================================================
+
+.container {
+  width: 100%;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: 1rem;
+
+  // Match Bootstrap's stepped container widths.
+  @media (min-width: 576px)  { max-width: 540px; }
+  @media (min-width: 768px)  { max-width: 720px; }
+  @media (min-width: 992px)  { max-width: 960px; }
+  @media (min-width: 1200px) { max-width: 1140px; }
+  @media (min-width: 1400px) { max-width: 1320px; }
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--gap);
+  padding-block: 1.5rem;
+
+  // author | posts | sidebar  →  3 : 6 : 3
+  @media (min-width: 992px) {
+    grid-template-columns: 3fr 6fr 3fr;
+    align-items: start;
+  }
+
+  // Grid items default to min-width:auto, so very wide content (long URLs,
+  // <pre>, tables) can blow a column past its track and skew the whole grid.
+  // min-width:0 keeps each column in its 3/6/3 proportion and lets content
+  // wrap or scroll inside instead.
+  > * {
+    min-width: 0;
+  }
+}
+
+.card {
+  background-color: var(--surface);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.pad {
+  padding: 1.5rem;
+}
+
+.pad-lg {
+  @media (min-width: 768px) {
+    padding: 2.5rem;
+  }
+}
+
+.stack > * + * {
+  margin-top: 1.5rem;
+}

@@ -1,0 +1,30 @@
+// =============================================================
+//  Bundled webfonts (self-hosted — no external requests)
+//  Variable woff2 files (latin subset) from Google Fonts, licensed OFL-1.1.
+//  Declared for all bundled families; a browser only downloads a file when the
+//  active typography preset / custom choice actually uses that family.
+// =============================================================
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("../fonts/inter-latin.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Lora";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("../fonts/lora-latin.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Playfair Display";
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url("../fonts/playfair-display-latin.woff2") format("woff2");
+}

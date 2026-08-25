@@ -1,0 +1,505 @@
+// =============================================================
+//  Sidebar widgets (right column)
+// =============================================================
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
+
+// single.php's left-rail fallback also carries `.sidebar` (for the flex/gap
+// above) but is shown/hidden via the native `hidden` attribute (main.js).
+// Author CSS always wins over the browser's own `[hidden] { display: none }`
+// UA rule, so `.sidebar`'s `display: flex` was silently keeping it visible
+// even while `hidden` — this restores that native behaviour.
+.left-rail-fallback[hidden] {
+  display: none;
+}
+
+.widget {
+  padding: 1.5rem;
+}
+
+.widget-title {
+  margin: 0 0 0.75rem;
+  color: var(--ink);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.widget-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.92rem;
+
+  li {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.4rem 0;
+    border-bottom: 0.5px solid var(--line);
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  a {
+    color: var(--ink-soft);
+    text-decoration: none;
+
+    &:hover {
+      color: var(--brand);
+    }
+  }
+
+  .count {
+    color: #8a99a8;
+  }
+}
+
+// =============================================================
+//  Core & block widgets inside the side rails
+//  The bespoke .widget-list / .recent / .tags styles only fit the static mockup
+//  markup. Real widgets emit .wp-block-* / plain lists, so map that output onto
+//  the same look here. (Block styles in _blocks.scss are scoped to .entry-content
+//  and don't reach widget areas.)
+// =============================================================
+
+.widget {
+  // Widgets/blocks carry their own outer margins; inside the padded card those
+  // would add a stray gap at the very top/bottom.
+  > :first-child { margin-top: 0; }
+  > :last-child { margin-bottom: 0; }
+
+  // A Heading block used as a widget title (block widgets don't emit
+  // .widget-title) — match the design's widget title.
+  .wp-block-heading {
+    margin: 0 0 0.75rem;
+    color: var(--ink);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  // "Show more / less" toggle appended to very long lists (see main.js).
+  .widget-more {
+    margin-top: 0.6rem;
+    padding: 0;
+    border: none;
+    background: none;
+    color: var(--brand);
+    font: inherit;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+
+    &:hover { color: var(--ink); }
+  }
+
+  // List-style widgets: categories, archives, pages, recent posts/comments,
+  // nav, meta, RSS, and any legacy-widget <ul>.
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: 0.92rem;
+
+    li {
+      padding: 0.4rem 0;
+      border-bottom: 0.5px solid var(--line);
+
+      &:last-child { border-bottom: none; }
+
+      // Parents of a nested list keep the divider for the group, not the row.
+      &:has(> ul) { border-bottom: none; }
+    }
+
+    // Nested (hierarchical) lists indent for hierarchy.
+    ul {
+      margin-top: 0.4rem;
+      padding-left: 0.85rem;
+    }
+
+    a {
+      color: var(--ink-soft);
+      text-decoration: none;
+
+      &:hover { color: var(--brand); }
+    }
+  }
+
+  // Recent Posts (block "Latest Posts" + legacy "Recent Posts"): thumbnail +
+  // date + optional author/excerpt, echoing the mockup's recent-posts list.
+  // Enable thumbnail/date in the block's settings — they're off by default.
+  .wp-block-latest-posts:not(.is-grid) {
+    // Rows WITH a featured image: thumbnail left, text stacked on the right.
+    // (The block omits the image entirely for posts that have none, so only
+    // image rows get the two-column treatment; the rest stay a simple stack.)
+    li:has( .wp-block-latest-posts__featured-image ) {
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      column-gap: 0.75rem;
+      align-items: center;
+
+      .wp-block-latest-posts__featured-image {
+        grid-column: 1;
+        grid-row: 1 / -1;
+      }
+
+      > :not(.wp-block-latest-posts__featured-image) {
+        grid-column: 2;
+        margin: 0;
+      }
+    }
+
+    .wp-block-latest-posts__featured-image img {
+      width: 56px;
+      height: 56px;
+      object-fit: cover;
+      border-radius: var(--radius-sm);
+    }
+  }
+
+  .wp-block-latest-posts__post-author {
+    margin-top: 0.1rem;
+    color: var(--ink-soft);
+    font-size: 0.78rem;
+  }
+
+  .wp-block-latest-posts__post-excerpt {
+    margin-top: 0.25rem;
+    color: var(--ink-soft);
+    font-size: 0.85rem;
+  }
+
+  // Post date — block <time> and legacy <span class="post-date"> alike — muted
+  // with a small calendar glyph (bi-calendar3) like the mockup.
+  .wp-block-latest-posts__post-date,
+  .post-date {
+    display: block;
+    margin-top: 0.1rem;
+    color: var(--muted);
+    font-size: 0.75rem;
+
+    &::before {
+      content: "\f214";
+      margin-right: 0.3rem;
+      font-family: "bootstrap-icons" !important;
+      font-weight: normal;
+    }
+  }
+
+  // Recent Comments block — an <ol> with avatar + author + date + excerpt, so it
+  // needs its own treatment (the generic <ul> rules above don't reach it).
+  .wp-block-latest-comments {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: 0.9rem;
+
+    .wp-block-latest-comments__comment {
+      display: flow-root;
+      margin: 0;
+      padding: 0.55rem 0;
+      border-bottom: 0.5px solid var(--line);
+      line-height: 1.5;
+
+      &:last-child { border-bottom: none; }
+    }
+
+    .avatar {
+      border-radius: 50%;
+    }
+
+    .wp-block-latest-comments__comment-author,
+    .wp-block-latest-comments__comment-link {
+      color: var(--ink);
+      font-weight: 500;
+      text-decoration: none;
+
+      &:hover { color: var(--brand); }
+    }
+
+    .wp-block-latest-comments__comment-date {
+      display: block;
+      margin-top: 0.1rem;
+      color: var(--muted);
+      font-size: 0.75rem;
+    }
+
+    .wp-block-latest-comments__comment-excerpt p {
+      margin: 0.25rem 0 0;
+      color: var(--ink-soft);
+      font-size: 0.85rem;
+    }
+  }
+
+  // Calendar (block + legacy): a tidy month grid. Days with posts are links and
+  // get a brand chip; plain days are muted text.
+  .wp-calendar-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+
+    caption {
+      margin-bottom: 0.5rem;
+      color: var(--ink);
+      font-weight: 600;
+      text-align: left;
+    }
+
+    th,
+    td {
+      padding: 0.3rem;
+      text-align: center;
+    }
+
+    // Weekday header row — a light tint, with the top corners rounded to sit
+    // inside the table's rounded border.
+    thead th {
+      background: var(--chip);
+      color: var(--ink-soft);
+      font-weight: 500;
+      font-size: 0.78rem;
+      border-bottom: 1px solid var(--line);
+
+      &:first-child { border-top-left-radius: var(--radius-sm); }
+      &:last-child { border-top-right-radius: var(--radius-sm); }
+    }
+
+    tbody td {
+      color: var(--ink-soft);
+    }
+
+    tbody td a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.85rem;
+      height: 1.85rem;
+      border-radius: 50%;
+      background: var(--chip);
+      color: var(--brand);
+      font-weight: 600;
+      text-decoration: none;
+
+      &:hover {
+        background: var(--brand);
+        color: #fff;
+      }
+    }
+
+    #today {
+      font-weight: 700;
+      color: var(--brand);
+
+      a {
+        background: var(--brand);
+        color: #fff;
+      }
+    }
+  }
+
+  .wp-calendar-nav {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+
+    a {
+      color: var(--ink-soft);
+      text-decoration: none;
+
+      &:hover { color: var(--brand); }
+    }
+
+    .pad {
+      color: var(--muted);
+    }
+  }
+
+  // Tag cloud → uniform chips (override core's inline per-tag font sizes, which
+  // look unruly in the narrow rail).
+  .wp-block-tag-cloud,
+  .tagcloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+
+    a {
+      display: inline-block;
+      padding: 0.25rem 0.7rem;
+      border-radius: 999px;
+      background: var(--chip);
+      color: var(--ink-soft);
+      font-size: 0.78rem !important;
+      text-decoration: none;
+
+      &:hover {
+        background: var(--brand);
+        color: #fff;
+      }
+    }
+  }
+
+  // Search block → match the design's .search-form.
+  .wp-block-search__label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .wp-block-search__inside-wrapper {
+    display: flex;
+  }
+
+  .wp-block-search__input {
+    flex: 1;
+    min-width: 0;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+    font-size: 0.9rem;
+  }
+
+  .wp-block-search__button {
+    margin: 0;
+    padding: 0 0.9rem;
+    border: none;
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    background: var(--brand);
+    color: #fff;
+    cursor: pointer;
+
+    &:hover { background: var(--brand-dark); }
+  }
+}
+
+// ----- Search widget -----
+.search-form {
+  display: flex;
+
+  input {
+    flex: 1;
+    min-width: 0;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--line);
+    border-right: none;
+    border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+    font-size: 0.9rem;
+  }
+
+  button {
+    padding: 0 0.9rem;
+    border: none;
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    background: var(--brand);
+    color: #fff;
+    cursor: pointer;
+
+    &:hover {
+      background: var(--brand-dark);
+    }
+  }
+}
+
+// ----- Tags -----
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.tag {
+  display: inline-block;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  background: var(--chip);
+  color: var(--ink-soft);
+  font-size: 0.78rem;
+  text-decoration: none;
+
+  &:hover {
+    background: var(--brand);
+    color: #fff;
+  }
+}
+
+// ----- Recent posts with thumbnails -----
+.recent {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.6rem 0;
+    border-bottom: 0.5px solid var(--line);
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  .thumb {
+    flex: 0 0 56px;
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius-sm);
+    object-fit: cover;
+  }
+
+  .title {
+    display: block;
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+    line-height: 1.35;
+    text-decoration: none;
+
+    &:hover {
+      color: var(--brand);
+    }
+  }
+
+  .date {
+    color: var(--muted);
+    font-size: 0.75rem;
+  }
+}
+
+// ----- Newsletter -----
+.newsletter input {
+  width: 100%;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+}
+
+.btn-solid {
+  display: block;
+  width: 100%;
+  padding: 0.55rem 1rem;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: var(--brand);
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-align: center;
+  cursor: pointer;
+
+  &:hover {
+    background: var(--brand-dark);
+  }
+}

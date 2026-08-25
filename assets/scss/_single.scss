@@ -1,0 +1,726 @@
+// =============================================================
+//  Single post — content, tags, share, nav, author box, comments
+// =============================================================
+
+// Single posts render with extra space above the layout (an upstream quirk we
+// couldn't isolate to a single rule). Pull the layout up so its top spacing
+// matches the rest of the site. Scoped to single posts only.
+.single .layout {
+  margin-top: -1.5rem;
+}
+
+.single-post {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+
+  .post-thumb img {
+    height: 420px;
+  }
+}
+
+.single-header {
+  margin-bottom: 1.5rem;
+}
+
+.single-title {
+  margin: 0.5rem 0 0;
+  font-size: 2.1rem;
+  line-height: 1.25;
+  // Break an absurdly long unbroken word (the Taumata… test title) instead of
+  // letting it overflow the content area.
+  overflow-wrap: break-word;
+}
+
+// ----- Long-form content typography -----
+.entry-content {
+  color: var(--ink-soft);
+  font-size: 1.05rem;
+
+  // Reset browser margins at owl-equal (0,1,0) specificity via :where(), so the
+  // owl selector below stays the single source of vertical rhythm. A plain
+  // `p { margin: 0 }` would be (0,1,1) and beat `> * + *`, collapsing the gaps
+  // between consecutive paragraphs/lists. Declared before the owl so the owl
+  // (same specificity, later) wins for direct children, while nested paragraphs
+  // (captions, quotes) still get reset and stay flush.
+  :where(p, ul, ol) {
+    margin: 0;
+  }
+
+  > * + * {
+    margin-top: 1.25rem;
+  }
+
+  h2 {
+    margin-top: 2rem;
+    font-size: 1.5rem;
+  }
+
+  h3 {
+    margin-top: 1.5rem;
+    font-size: 1.2rem;
+  }
+
+  a {
+    color: var(--brand);
+  }
+
+  ul,
+  ol {
+    padding-left: 1.5rem; // margin handled by the :where() reset above
+  }
+
+  li + li {
+    margin-top: 0.4rem;
+  }
+
+  img {
+    border-radius: var(--radius-sm);
+  }
+
+  > img {
+    display: block;
+    margin: 2rem 0;
+  }
+
+  blockquote {
+    margin: 2rem 0;
+    padding: 0.5rem 0 0.5rem 1.25rem;
+    border-left: 3px solid var(--brand);
+    color: var(--ink);
+    font-size: 1.15rem;
+    font-style: italic;
+  }
+
+  figure {
+    margin: 2rem 0;
+  }
+
+  figcaption {
+    margin-top: 0.5rem;
+    color: var(--muted);
+    font-size: 0.82rem;
+    text-align: center;
+  }
+
+  pre {
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius-sm);
+    background: #1f2d3d;
+    color: #e7edf3;
+    font-size: 0.9rem;
+    overflow-x: auto;
+  }
+}
+
+// ----- Tags row under content -----
+.entry-tags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.3rem;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 0.5px solid var(--line);
+}
+
+.entry-tags .label,
+.entry-share .label {
+  flex: 0 0 70px;
+  width: 70px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+// Keep the chips/icons as one aligned group beside the label.
+.tags-items,
+.share-items {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+// ----- Share row -----
+.entry-share {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-top: 2rem;
+}
+
+.share-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  background: var(--brand);
+  color: #fff;
+  font-family: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+
+  i {
+    font-size: 1.05rem;
+  }
+
+  &:hover {
+    background: #5a6b7d;
+    color: #fff;
+  }
+
+  // Tooltip + arrow, shown on hover.
+  &[data-tooltip]::after,
+  &[data-tooltip]::before {
+    position: absolute;
+    left: 50%;
+    z-index: 70;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.15s ease, transform 0.15s ease;
+  }
+
+  &[data-tooltip]::after {
+    content: attr(data-tooltip);
+    bottom: calc(100% + 9px);
+    padding: 0.45rem 0.65rem;
+    border-radius: 6px;
+    background: #5a6b7d;
+    color: #fff;
+    font-size: 0.75rem;
+    line-height: 1;
+    white-space: nowrap;
+    transform: translateX(-50%) translateY(4px);
+  }
+
+  &[data-tooltip]::before {
+    content: "";
+    bottom: calc(100% - 2px);
+    border: 8px solid transparent;
+    border-top-color: #5a6b7d;
+    transform: translateX(-50%) translateY(4px);
+  }
+
+  &[data-tooltip]:hover::after,
+  &[data-tooltip]:hover::before {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(5px);
+  }
+}
+
+// ----- Post navigation -----
+.post-nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+
+  a {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    // Let the grid cell shrink below the title's intrinsic width so a very long
+    // unbroken title (the Taumata… test post) can wrap instead of blowing the
+    // column out.
+    min-width: 0;
+    padding: 1.4rem 1.5rem;
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--ink);
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(31, 45, 61, 0.1);
+
+      .ptitle {
+        color: var(--brand);
+      }
+    }
+  }
+
+  .dir {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: var(--muted);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .ptitle {
+    color: var(--ink);
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.4;
+    // It's a flex item: break-word alone leaves the min-content size at the
+    // full unbroken word, so the title still overflows the card. `anywhere`
+    // lets that word count as breakable when sizing, and min-width:0 lets the
+    // item shrink to the card — together they wrap the Taumata… title.
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .next {
+    align-items: flex-end;
+    text-align: right;
+  }
+
+  @media (max-width: 575px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// ----- Author box under post -----
+.author-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+
+  img {
+    flex: 0 0 84px;
+    width: 84px;
+    height: 84px;
+    border-radius: var(--radius-sm);
+    object-fit: cover;
+  }
+
+  .ab-head {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .ab-name {
+    margin: 0;
+    font-size: 1.1rem;
+
+    a {
+      color: inherit;
+      text-decoration: none;
+
+      &:hover {
+        color: var(--brand);
+      }
+    }
+  }
+
+  .ab-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+    color: var(--ink-soft);
+    font-size: 0.85rem;
+    text-decoration: none;
+
+    &:hover {
+      color: var(--brand);
+    }
+  }
+
+  .ab-bio {
+    margin: 0;
+    font-size: 0.95rem;
+  }
+
+  .ab-social {
+    display: flex;
+    gap: 0.6rem;
+    margin-top: 0.85rem;
+
+    a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--chip);
+      color: var(--brand);
+      font-size: 1rem;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+
+      &:hover {
+        background: var(--brand);
+        color: #fff;
+      }
+    }
+  }
+}
+
+// ----- Comments -----
+.comments-title {
+  margin: 0 0 1.25rem;
+  font-size: 1.7rem;
+}
+
+.comment-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.comment {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1.4rem 0;
+
+  // Avatar + body share the first row; nested replies (ul.children) wrap to a
+  // full-width row below instead of being laid out beside the comment.
+  > .comment-main {
+    flex: 1;
+    min-width: 0;
+  }
+
+  > .children {
+    flex: 0 0 100%;
+  }
+
+  .avatar {
+    flex: 0 0 44px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .c-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.5rem;
+  }
+
+  .c-name {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  .c-date {
+    color: var(--muted);
+    font-size: 0.78rem;
+  }
+
+  .c-body {
+    margin: 0.4rem 0 0;
+    font-size: 0.95rem;
+  }
+
+  // Reply pill — kept deliberately as a small focal call to action.
+  .c-reply,
+  .comment-reply-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    margin-top: 0.6rem;
+    padding: 0.3rem 0.75rem;
+    border-radius: 999px;
+    background: var(--chip);
+    color: var(--brand);
+    font-size: 0.78rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+
+    &:hover {
+      background: var(--brand);
+      color: #fff;
+    }
+  }
+
+  // The post author's own comments get a soft tint (WordPress adds .bypostauthor).
+  &.bypostauthor > .comment-main,
+  &.is-author > .comment-main {
+    padding: 0.9rem 1.1rem;
+    border-radius: var(--radius-sm);
+    background: #eef2f6;
+  }
+
+  // On the tinted author comment the reply pill needs a slightly darker base.
+  &.bypostauthor .c-reply,
+  &.bypostauthor .comment-reply-link,
+  &.is-author .c-reply,
+  &.is-author .comment-reply-link {
+    background: #d3dde7;
+
+    &:hover {
+      background: var(--brand);
+      color: #fff;
+    }
+  }
+
+  .author-badge {
+    display: inline-block;
+    padding: 0.1rem 0.5rem;
+    border-radius: 999px;
+    background: var(--brand);
+    color: #fff;
+    font-size: 0.66rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    vertical-align: 0.08em;
+  }
+}
+
+// Separate top-level threads with a single light divider — no staircased
+// borders on every nested reply.
+.comment-list > .comment + .comment {
+  border-top: 1px solid var(--line);
+}
+
+// Threaded (nested) replies: a soft vertical thread line + modest indent, so
+// deep threads (the unit test goes 5+ levels) stay readable.
+.comment-list .children {
+  margin: 0;
+  padding-left: 1.4rem;
+  border-left: 2px solid var(--line);
+  list-style: none;
+
+  @media (max-width: 575px) {
+    padding-left: 0.9rem;
+  }
+}
+
+// ----- Comment form -----
+.comment-form {
+  margin-top: 1.75rem;
+
+  label {
+    display: block;
+    margin-bottom: 0.3rem;
+    color: var(--ink);
+    font-size: 0.85rem;
+  }
+
+  .row2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+
+    @media (max-width: 575px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  input,
+  textarea {
+    width: 100%;
+    margin-bottom: 1rem;
+    padding: 0.6rem 0.75rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    font-family: inherit;
+    font-size: 0.95rem;
+  }
+
+  textarea {
+    min-height: 130px;
+    resize: vertical;
+  }
+
+  // Cookies-consent checkbox: inline, not full-width like the text inputs.
+  .comment-form-cookies-consent {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+
+    input {
+      width: auto;
+      margin: 0.15rem 0 0;
+    }
+
+    label {
+      margin: 0;
+      color: var(--muted);
+    }
+  }
+
+  .form-submit {
+    margin: 0;
+  }
+}
+
+// "Logged in as", comment notes, and the closed notice.
+.comment-respond {
+  margin-top: 1.75rem;
+}
+
+// "Cancel reply" link sits next to the reply title — give it breathing room and
+// a lighter, secondary style so it doesn't read like part of the heading.
+#cancel-comment-reply-link {
+  margin-left: 0.6rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-weight: 500;
+
+  &:hover {
+    color: var(--brand);
+  }
+}
+
+.logged-in-as,
+.comment-notes {
+  margin: 0 0 1rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+
+  a {
+    color: var(--brand);
+  }
+}
+
+.no-comments {
+  margin: 0;
+  padding: 0.5rem 0;
+  color: var(--muted);
+  font-style: italic;
+}
+
+// Comment bodies can hold rich HTML (the unit test embeds a whole poem, tables,
+// headings, etc. inside one comment). Give them the same safe long-form
+// treatment as post content so nothing overflows or is clipped.
+.c-body {
+  overflow-wrap: break-word;
+
+  > :first-child {
+    margin-top: 0;
+  }
+
+  > :last-child {
+    margin-bottom: 0;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  pre {
+    max-width: 100%;
+    margin: 0.75rem 0;
+    padding: 0.85rem 1rem;
+    border-radius: var(--radius-sm);
+    background: #1f2d3d;
+    color: #e7edf3;
+    font-size: 0.85rem;
+    overflow-x: auto;
+    scrollbar-width: thin;
+  }
+
+  code {
+    padding: 0.1rem 0.35rem;
+    border-radius: 4px;
+    background: var(--chip);
+    font-size: 0.9em;
+  }
+
+  pre code {
+    padding: 0;
+    background: none;
+    color: inherit;
+  }
+
+  blockquote {
+    margin: 0.75rem 0;
+    padding-left: 1rem;
+    border-left: 3px solid var(--brand-soft);
+    color: var(--ink-soft);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+  }
+
+  th,
+  td {
+    padding: 0.4rem 0.6rem;
+    border: 1px solid var(--line);
+    text-align: left;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin: 1rem 0 0.5rem;
+    line-height: 1.3;
+  }
+
+  ul,
+  ol {
+    padding-left: 1.25rem;
+  }
+}
+
+// ----- Pingbacks / trackbacks -----
+// A separate, subdued list below the human comments.
+.pingbacks {
+  margin-top: 2rem;
+}
+
+.pingbacks-title {
+  margin: 0 0 0.75rem;
+  font-size: 1.1rem;
+  color: var(--ink);
+}
+
+.pingback-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pingback-list .pingback {
+  display: flex;
+  align-items: baseline;
+  gap: 0.55rem;
+  padding: 0.6rem 0;
+  border-bottom: 0.5px solid var(--line);
+  font-size: 0.9rem;
+
+  > i {
+    color: var(--brand-soft);
+    transform: translateY(0.1em);
+  }
+
+  .pingback-body {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.5rem;
+  }
+
+  a {
+    color: var(--ink-soft);
+    font-weight: 500;
+    text-decoration: none;
+
+    &:hover {
+      color: var(--brand);
+    }
+  }
+
+  .pingback-date {
+    color: var(--muted);
+    font-size: 0.78rem;
+  }
+}

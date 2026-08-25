@@ -1,0 +1,13 @@
+# Local dev tooling — not part of the theme
+.claude/
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
+
+# Local build/dist artifacts if ever generated here
+*.zip

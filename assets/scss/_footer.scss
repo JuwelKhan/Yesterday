@@ -1,0 +1,377 @@
+// =============================================================
+//  Footer — widget area + bottom bar
+// =============================================================
+
+.site-footer {
+  margin-top: 1.5rem;
+  background-color: var(--brand);
+  color: var(--brand-soft);
+  font-size: 0.85rem;
+
+  .container {
+    padding-block: 0;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  a {
+    color: #cdd9e5;
+  }
+}
+
+// ----- Footer widget area -----
+.footer-widgets {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  padding-block: 2.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+  @media (min-width: 768px) { grid-template-columns: 1fr 1fr; }
+  @media (min-width: 992px) { grid-template-columns: 1.4fr 1fr 1fr 1fr; }
+}
+
+.footer-widget {
+  h3 {
+    margin: 0 0 1rem;
+    color: #fff;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  p {
+    margin: 0 0 0.75rem;
+    line-height: 1.7;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  li {
+    padding: 0.3rem 0;
+
+    .count {
+      color: var(--brand-soft);
+      font-size: 0.8rem;
+    }
+  }
+
+  a {
+    color: #cdd9e5;
+    text-decoration: none;
+
+    &:hover {
+      color: #fff;
+      text-decoration: underline;
+    }
+  }
+
+  .footer-social {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+
+    a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      font-size: 1rem;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.22);
+        text-decoration: none;
+      }
+    }
+  }
+}
+
+// =============================================================
+//  Block & core widgets inside the footer (dark variant)
+//  Footer widgets emit .wp-block-* markup like the sidebars; mirror the sidebar
+//  treatment with footer-appropriate light-on-dark colours. (The .widget block
+//  styles in _sidebar.scss are scoped to .widget and don't reach the footer.)
+// =============================================================
+.footer-widget {
+  // Heading block used as a widget title (block widgets emit <h2 class=
+  // "wp-block-heading">, not our <h3>) — match the footer's <h3> title style.
+  .wp-block-heading {
+    margin: 0 0 1rem;
+    color: #fff;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  // "Show more / less" toggle appended to very long lists (see main.js).
+  .widget-more {
+    margin-top: 0.6rem;
+    padding: 0;
+    border: none;
+    background: none;
+    color: #cdd9e5;
+    font: inherit;
+    font-size: 0.85rem;
+    cursor: pointer;
+
+    &:hover {
+      color: #fff;
+      text-decoration: underline;
+    }
+  }
+
+  // Latest Posts: thumbnail + title + date (date carries a calendar glyph).
+  .wp-block-latest-posts:not(.is-grid) {
+    li:has( .wp-block-latest-posts__featured-image ) {
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      column-gap: 0.7rem;
+      align-items: center;
+
+      .wp-block-latest-posts__featured-image {
+        grid-column: 1;
+        grid-row: 1 / -1;
+      }
+
+      > :not(.wp-block-latest-posts__featured-image) {
+        grid-column: 2;
+        margin: 0;
+      }
+    }
+
+    .wp-block-latest-posts__featured-image img {
+      width: 48px;
+      height: 48px;
+      object-fit: cover;
+      border-radius: var(--radius-sm);
+    }
+  }
+
+  .wp-block-latest-posts__post-date,
+  .wp-block-latest-posts__post-author,
+  .post-date {
+    display: block;
+    margin-top: 0.1rem;
+    color: var(--brand-soft);
+    font-size: 0.75rem;
+  }
+
+  .wp-block-latest-posts__post-date::before,
+  .post-date::before {
+    content: "\f214";
+    margin-right: 0.3rem;
+    font-family: "bootstrap-icons" !important;
+  }
+
+  // Recent Comments (an <ol> with avatar + author + date + excerpt).
+  .wp-block-latest-comments {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    .wp-block-latest-comments__comment {
+      display: flow-root;
+      padding: 0.45rem 0;
+      border-bottom: 0.5px solid rgba(255, 255, 255, 0.1);
+      line-height: 1.5;
+      font-size: 0.85rem;
+
+      &:last-child { border-bottom: none; }
+    }
+
+    .avatar { border-radius: 50%; }
+
+    .wp-block-latest-comments__comment-date {
+      display: block;
+      color: var(--brand-soft);
+      font-size: 0.72rem;
+    }
+
+    .wp-block-latest-comments__comment-excerpt p {
+      margin: 0.2rem 0 0;
+      color: #cdd9e5;
+      font-size: 0.82rem;
+    }
+  }
+
+  // Tag cloud → translucent chips.
+  .wp-block-tag-cloud,
+  .tagcloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+
+    a {
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #cdd9e5;
+      font-size: 0.75rem !important;
+      text-decoration: none;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.22);
+        color: #fff;
+        text-decoration: none;
+      }
+    }
+  }
+
+  // Calendar (dark).
+  .wp-calendar-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: var(--radius-sm);
+    font-size: 0.8rem;
+
+    caption {
+      margin-bottom: 0.4rem;
+      color: #fff;
+      font-weight: 600;
+      text-align: left;
+    }
+
+    th,
+    td {
+      padding: 0.25rem;
+      text-align: center;
+    }
+
+    thead th {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--brand-soft);
+      font-weight: 500;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+
+      &:first-child { border-top-left-radius: var(--radius-sm); }
+      &:last-child { border-top-right-radius: var(--radius-sm); }
+    }
+
+    tbody td { color: #cdd9e5; }
+
+    tbody td a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.7rem;
+      height: 1.7rem;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+      text-decoration: none;
+
+      &:hover {
+        background: #fff;
+        color: var(--brand);
+        text-decoration: none;
+      }
+    }
+
+    #today {
+      font-weight: 700;
+      color: #fff;
+
+      a { background: #fff; color: var(--brand); }
+    }
+  }
+
+  .wp-calendar-nav {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.4rem;
+    font-size: 0.78rem;
+
+    .pad { color: var(--brand-soft); }
+  }
+
+  // Search block.
+  .wp-block-search__label {
+    display: block;
+    margin-bottom: 0.4rem;
+    color: #fff;
+    font-size: 0.85rem;
+  }
+
+  .wp-block-search__inside-wrapper { display: flex; }
+
+  .wp-block-search__input {
+    flex: 1;
+    min-width: 0;
+    padding: 0.5rem 0.7rem;
+    border: none;
+    border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+    font-size: 0.9rem;
+  }
+
+  .wp-block-search__button {
+    margin: 0;
+    padding: 0 0.9rem;
+    border: none;
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    cursor: pointer;
+
+    &:hover { background: rgba(255, 255, 255, 0.25); }
+  }
+}
+
+// ----- Footer recent posts (default-widget style) -----
+.footer-recent {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    padding: 0.4rem 0;
+    border-bottom: 0.5px solid rgba(255, 255, 255, 0.1);
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  a {
+    display: block;
+    color: #cdd9e5;
+    line-height: 1.4;
+    text-decoration: none;
+
+    &:hover {
+      color: #fff;
+    }
+  }
+
+  .date {
+    display: block;
+    margin-top: 0.1rem;
+    color: var(--brand-soft);
+    font-size: 0.75rem;
+  }
+}
+
+// ----- Bottom bar -----
+.footer-bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding-block: 1.5rem;
+
+  @media (min-width: 576px) {
+    flex-direction: row;
+  }
+}

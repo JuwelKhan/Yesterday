@@ -1,0 +1,340 @@
+// =============================================================
+//  WordPress core content classes
+//  Alignments, captions, galleries, embeds and the lightbox —
+//  markup WordPress adds to post/page content (and that Theme
+//  Check expects a theme to style).
+// =============================================================
+
+// ----- Alignments (classic + block) -----
+// Scoped to content areas so they out-rank `.entry-content figure { margin }`,
+// which would otherwise cancel the side spacing that keeps wrapped text off a
+// floated image.
+.entry-content,
+.c-body {
+  .alignleft {
+    float: left;
+    margin: 0.4rem 1.75rem 1.25rem 0;
+    max-width: 50%;
+  }
+
+  .alignright {
+    float: right;
+    margin: 0.4rem 0 1.25rem 1.75rem;
+    max-width: 50%;
+  }
+
+  .aligncenter {
+    clear: both;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .alignnone {
+    margin: 0.4rem 0 1.25rem;
+  }
+
+  // In a 3-column layout there is no room for true full-bleed, so wide/full
+  // blocks are simply kept within their column.
+  .alignwide,
+  .alignfull {
+    max-width: 100%;
+  }
+}
+
+// Contain floated children within the content box.
+.entry-content::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+// ----- Captions (classic .wp-caption + block .wp-element-caption) -----
+.wp-caption {
+  max-width: 100%;
+  margin-bottom: 1.5rem;
+
+  img {
+    display: block;
+    margin: 0;
+  }
+}
+
+.wp-caption-text,
+.wp-element-caption {
+  margin: 0.5rem 0 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+  text-align: center;
+}
+
+// ----- In-post page navigation (wp_link_pages, the <!--nextpage--> tag) -----
+// Mirrors the .pagination pill style so split posts match the design.
+.entry-content .page-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem;
+  margin-top: 2rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line);
+  font-size: 0.9rem;
+  color: var(--muted); // the "Pages:" label
+
+  .post-page-numbers {
+    display: inline-block;
+    padding: 0.35rem 0.7rem;
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    color: var(--ink-soft);
+    text-decoration: none;
+    line-height: 1;
+
+    &:hover {
+      background: #d2dae2;
+      color: var(--ink);
+    }
+  }
+
+  .post-page-numbers.current {
+    background: var(--brand);
+    color: #fff;
+    font-weight: 600;
+  }
+}
+
+// ----- Classic [gallery] shortcode -----
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  margin: 1.5rem 0;
+
+  &.gallery-columns-1 { grid-template-columns: 1fr; }
+  &.gallery-columns-2 { grid-template-columns: repeat(2, 1fr); }
+  &.gallery-columns-4 { grid-template-columns: repeat(4, 1fr); }
+  &.gallery-columns-5 { grid-template-columns: repeat(5, 1fr); }
+  &.gallery-columns-6 { grid-template-columns: repeat(6, 1fr); }
+}
+
+.gallery-item {
+  margin: 0;
+  text-align: center;
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-sm);
+  }
+}
+
+.gallery-caption {
+  display: block;
+  margin-top: 0.3rem;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+// ----- "Read more" jump link from the <!--more--> tag -----
+.more-link {
+  display: inline-block;
+  margin-top: 0.5rem;
+  color: var(--brand);
+  font-weight: 500;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+// ----- Keep embeds within the content column -----
+.entry-content {
+  iframe,
+  embed,
+  object,
+  video {
+    max-width: 100%;
+  }
+
+  .wp-block-embed__wrapper iframe {
+    width: 100%;
+  }
+}
+
+// ----- Wide tables scroll instead of stretching the column -----
+.entry-content .wp-block-table,
+.entry-content figure.wp-block-table {
+  overflow-x: auto;
+}
+
+// ----- Lightbox -----
+// A consistent magnifier cursor signalling "click to enlarge" — the OS default
+// zoom-in cursor varies between platforms and looks dated.
+.gallery-grid img,
+.gallery .gallery-icon img,
+.entry-content img {
+  cursor: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='30'%20height='30'%20viewBox='0%200%2030%2030'%3E%3Cg%20fill='none'%20stroke-linecap='round'%3E%3Ccircle%20cx='12'%20cy='12'%20r='8.5'%20stroke='%23000'%20stroke-opacity='0.25'%20stroke-width='4'/%3E%3Cline%20x1='18'%20y1='18'%20x2='26'%20y2='26'%20stroke='%23000'%20stroke-opacity='0.25'%20stroke-width='4.5'/%3E%3Cline%20x1='12'%20y1='8.5'%20x2='12'%20y2='15.5'%20stroke='%23000'%20stroke-opacity='0.25'%20stroke-width='4'/%3E%3Cline%20x1='8.5'%20y1='12'%20x2='15.5'%20y2='12'%20stroke='%23000'%20stroke-opacity='0.25'%20stroke-width='4'/%3E%3Ccircle%20cx='12'%20cy='12'%20r='8.5'%20stroke='%23fff'%20stroke-width='2.5'/%3E%3Cline%20x1='18'%20y1='18'%20x2='26'%20y2='26'%20stroke='%23fff'%20stroke-width='3'/%3E%3Cline%20x1='12'%20y1='8.5'%20x2='12'%20y2='15.5'%20stroke='%23fff'%20stroke-width='2.5'/%3E%3Cline%20x1='8.5'%20y1='12'%20x2='15.5'%20y2='12'%20stroke='%23fff'%20stroke-width='2.5'/%3E%3C/g%3E%3C/svg%3E") 12 12, zoom-in;
+}
+
+.yd-lightbox {
+  position: fixed;
+  inset: 0;
+  // Above the WordPress admin bar (z-index 99999) so the close button and the
+  // top of the image are never tucked under it.
+  z-index: 100000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: rgba(15, 22, 30, 0.92);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+
+  &.is-open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  img {
+    max-width: 100%;
+    max-height: 82vh;
+    cursor: default;
+    border-radius: var(--radius-sm);
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5);
+  }
+}
+
+.yd-lightbox-figure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.7rem;
+  max-width: 100%;
+  margin: 0;
+}
+
+.yd-lightbox-caption {
+  max-width: 60ch;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.yd-lightbox-close,
+.yd-lightbox-nav {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.28);
+  }
+}
+
+.yd-lightbox-close {
+  top: 1rem;
+  right: 1.25rem;
+  width: 46px;
+  height: 46px;
+  font-size: 1rem;
+}
+
+.yd-lightbox-nav {
+  top: 50%;
+  transform: translateY(-50%);
+  width: 52px;
+  height: 52px;
+  font-size: 1.15rem;
+}
+
+.yd-prev {
+  left: 1rem;
+}
+
+.yd-next {
+  right: 1rem;
+}
+
+@media (max-width: 575px) {
+  .yd-prev {
+    left: 0.4rem;
+  }
+
+  .yd-next {
+    right: 0.4rem;
+  }
+}
+
+// ----- Password-protected post form -----
+.post-password-form {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+
+  p {
+    margin: 0 0 1rem;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+
+  // The password field and the Enter button share the last <p>; keep them on
+  // one row (the form is small) and let it wrap only on narrow screens.
+  p:last-of-type {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0;
+  }
+
+  label {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 1rem;
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  input[type="password"] {
+    flex: 1 1 12rem;
+    padding: 0.45rem 0.75rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: var(--bg);
+    color: var(--ink);
+    font-size: 0.95rem;
+
+    &:focus {
+      outline: 2px solid var(--brand);
+      outline-offset: 1px;
+      border-color: var(--brand);
+    }
+  }
+
+  input[type="submit"] {
+    padding: 0.45rem 1.25rem;
+    border: none;
+    border-radius: var(--radius-sm);
+    background: var(--brand);
+    color: #fff;
+    font-size: 0.95rem;
+    cursor: pointer;
+
+    &:hover {
+      background: var(--brand-dark);
+    }
+  }
+}

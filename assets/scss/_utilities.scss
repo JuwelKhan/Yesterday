@@ -1,0 +1,38 @@
+// =============================================================
+//  Utility classes (replacing former inline styles)
+// =============================================================
+
+.newsletter-note {
+  margin: 0 0 0.75rem;
+  font-size: 0.92rem;
+}
+
+.btn-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  width: auto;
+  padding-inline: 1.5rem;
+}
+
+.has-mb    { margin-bottom: 1.25rem; }
+.has-mb-sm { margin-bottom: 0.75rem; }
+.has-mb-lg { margin-bottom: 1.5rem; }
+.has-mt    { margin-top: 1.5rem; }
+.icon-inline { font-size: 0.8em; }
+
+// ----- Customizer layout toggles (body classes from the Layout section) -----
+.no-header-search .header-search {
+  display: none;
+}
+
+.no-author-box .author-box {
+  display: none;
+}
+
+@media (min-width: 992px) {
+  .no-sticky aside.sticky {
+    position: static;
+    top: auto;
+  }
+}

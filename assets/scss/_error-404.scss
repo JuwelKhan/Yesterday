@@ -1,0 +1,99 @@
+// =============================================================
+//  404 page
+// =============================================================
+
+.error-wrap {
+  padding-block: 1.5rem;
+
+  main {
+    max-width: 680px;
+    margin-inline: auto;
+  }
+}
+
+.error-404 {
+  padding: 3.5rem 1.5rem;
+  text-align: center;
+
+  // More specific than `.error-404 p` so the big code keeps its size.
+  p.error-code {
+    margin: 0;
+    max-width: none;
+    color: var(--brand);
+    font-size: 3rem;
+    font-weight: 800;
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+  }
+
+  h1 {
+    margin: 1rem 0 0;
+    font-size: 1.6rem;
+  }
+
+  p {
+    max-width: 46ch;
+    margin: 0.75rem auto 0;
+    font-size: 1.02rem;
+  }
+
+  .search-form {
+    input {
+      padding: 0.85rem 1rem;
+      font-size: 1.05rem;
+    }
+
+    button {
+      padding: 0 1.3rem;
+      font-size: 1.2rem;
+    }
+  }
+}
+
+.error-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.75rem;
+
+  .search-form {
+    width: 100%;
+    max-width: 420px;
+  }
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 1.25rem;
+  border: 1.5px solid var(--brand);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--brand);
+  font-weight: 500;
+  white-space: nowrap;
+  text-decoration: none;
+
+  &:hover {
+    background: var(--brand);
+    color: #fff;
+  }
+}
+
+.error-suggest {
+  max-width: 420px;
+  margin-top: 2.5rem;
+  margin-inline: auto;
+  text-align: left;
+
+  h2 {
+    margin: 0 0 1rem;
+    color: var(--muted);
+    font-size: 0.85rem;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+}
