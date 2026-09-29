@@ -3,7 +3,7 @@ Contributors: juwelkhan
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.0.3
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: blog, three-columns, two-columns, left-sidebar, right-sidebar, custom-colors, custom-logo, custom-menu, featured-images, footer-widgets, post-formats, threaded-comments, translation-ready, sticky-post
@@ -31,6 +31,8 @@ Features:
   (self-hosted webfonts), and layout toggles (header search, author box,
   sticky sidebars).
 * Custom "About / Author" page template with a portrait hero.
+* Estimated reading time, related posts, and a back-to-top button, each
+  optional from the Customizer.
 * No external HTTP requests — icons and webfonts are bundled and self-hosted.
 
 == Installation ==
@@ -49,6 +51,21 @@ post thumbnails, custom colors via the Customizer) and works with the block
 editor out of the box. No additional plugins are required.
 
 == Changelog ==
+
+= 1.1.0 =
+* New: estimated reading time on every post, in listings and on the single
+  post itself. Counts words with a Unicode-aware split, so non-Latin scripts
+  (Bengali and others) are counted correctly, not just Latin text.
+* New: a "You might also like" related-posts section after each single
+  post, matched by category (falling back to tags). Only appears when a
+  genuine match is found — never fills the space with unrelated posts.
+* New: a back-to-top button that fades in after scrolling.
+* New: excerpt length is now adjustable from the Customizer (Layout
+  section). Defaults to WordPress's own default (55 words), so existing
+  sites keep their current excerpt length after updating unless changed.
+* New Customizer toggles (Layout section, both on by default): "Show
+  estimated reading time" and "Show related posts after each article" —
+  every new addition in this release can be turned off individually.
 
 = 1.0.3 =
 * Replaced all three screenshot demo photos (previously from a stock-photo

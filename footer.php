@@ -52,6 +52,10 @@
 		</div>
 	</footer>
 
+	<button class="back-to-top" aria-label="<?php esc_attr_e( 'Back to top', 'yesterday' ); ?>">
+		<i class="bi bi-arrow-up" aria-hidden="true"></i>
+	</button>
+
 <?php wp_footer(); ?>
 </body>
 </html>

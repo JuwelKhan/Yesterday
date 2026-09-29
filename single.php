@@ -80,6 +80,9 @@ if ( have_posts() ) :
 						<p class="ab-bio"><?php echo esc_html( $yd_author_bio ); ?></p>
 					</div>
 				</section>
+
+				<?php get_template_part( 'template-parts/related-posts' ); ?>
+
 				<?php
 
 				// --- Previous / next post navigation ---

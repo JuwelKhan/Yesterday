@@ -360,6 +360,8 @@ function yesterday_customize_register( $wp_customize ) {
 		)
 	);
 
+	// These three are pure CSS visibility (markup always renders; a body class
+	// hides it), so the Customizer preview can update them instantly.
 	$toggles = array(
 		'yesterday_show_header_search' => __( 'Show search in the header', 'yesterday' ),
 		'yesterday_show_author_box'    => __( 'Show the author box on single posts', 'yesterday' ),
@@ -384,6 +386,58 @@ function yesterday_customize_register( $wp_customize ) {
 			)
 		);
 	}
+
+	// These two decide whether PHP renders the markup at all (reading time is
+	// computed and printed, or not; the related-posts query runs, or doesn't),
+	// so there's no live-preview class to toggle — the preview refreshes
+	// instead, same as any other server-rendered change.
+	$refresh_toggles = array(
+		'yesterday_show_reading_time'  => __( 'Show estimated reading time', 'yesterday' ),
+		'yesterday_show_related_posts' => __( 'Show related posts after each article', 'yesterday' ),
+	);
+
+	foreach ( $refresh_toggles as $id => $label ) {
+		$wp_customize->add_setting(
+			$id,
+			array(
+				'default'           => true,
+				'sanitize_callback' => 'yesterday_sanitize_checkbox',
+				'transport'         => 'refresh',
+			)
+		);
+		$wp_customize->add_control(
+			$id,
+			array(
+				'label'   => $label,
+				'section' => 'yesterday_layout',
+				'type'    => 'checkbox',
+			)
+		);
+	}
+
+	// Excerpt length — defaults to WordPress core's own default (55 words) so
+	// upgrading the theme never silently changes an existing site's excerpts.
+	$wp_customize->add_setting(
+		'yesterday_excerpt_length',
+		array(
+			'default'           => 55,
+			'sanitize_callback' => 'yesterday_sanitize_excerpt_length',
+			'transport'         => 'refresh',
+		)
+	);
+	$wp_customize->add_control(
+		'yesterday_excerpt_length',
+		array(
+			'label'       => __( 'Excerpt length (words)', 'yesterday' ),
+			'description' => __( 'How many words to show in auto-generated excerpts on listing pages.', 'yesterday' ),
+			'section'     => 'yesterday_layout',
+			'type'        => 'number',
+			'input_attrs' => array(
+				'min' => 10,
+				'max' => 100,
+			),
+		)
+	);
 }
 add_action( 'customize_register', 'yesterday_customize_register' );
 
@@ -395,6 +449,22 @@ add_action( 'customize_register', 'yesterday_customize_register' );
  */
 function yesterday_sanitize_checkbox( $value ) {
 	return (bool) $value;
+}
+
+/**
+ * Sanitize the excerpt-length setting, clamped to the control's own 10-100
+ * range — falls back to WordPress core's default (55) for anything outside
+ * that range or not a usable number.
+ *
+ * @param mixed $value Submitted value.
+ * @return int
+ */
+function yesterday_sanitize_excerpt_length( $value ) {
+	$value = absint( $value );
+	if ( $value < 10 || $value > 100 ) {
+		return 55;
+	}
+	return $value;
 }
 
 /**

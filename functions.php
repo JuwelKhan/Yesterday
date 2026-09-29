@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // Theme version, used to cache-bust enqueued assets.
 if ( ! defined( 'YESTERDAY_VERSION' ) ) {
-	define( 'YESTERDAY_VERSION', '1.0.3' );
+	define( 'YESTERDAY_VERSION', '1.1.0' );
 }
 
 /**
@@ -172,6 +172,19 @@ function yesterday_excerpt_more( $more ) {
 	return '&hellip;';
 }
 add_filter( 'excerpt_more', 'yesterday_excerpt_more' );
+
+/**
+ * Auto-generated excerpt length in words, from the Customizer (Layout
+ * section). Defaults to WordPress core's own default (55) so upgrading the
+ * theme never changes existing sites' excerpt length unless the user opts in.
+ *
+ * @param int $length Core's default word count.
+ * @return int
+ */
+function yesterday_excerpt_length( $length ) {
+	return (int) get_theme_mod( 'yesterday_excerpt_length', 55 );
+}
+add_filter( 'excerpt_length', 'yesterday_excerpt_length' );
 
 /**
  * Paginated-posts navigation, rendered into the theme's markup
@@ -389,6 +402,89 @@ function yesterday_meta_category() {
 		echo '<span class="sep">&middot;</span> ';
 		echo wp_kses_post( $list );
 	}
+}
+
+/**
+ * Word count for the current post. Splits on Unicode whitespace instead of
+ * using str_word_count(), which only recognises Latin letters and returns 0
+ * for Bengali, Arabic, and other non-Latin scripts.
+ *
+ * @return int
+ */
+function yesterday_word_count() {
+	$text = trim( wp_strip_all_tags( get_the_content() ) );
+	if ( '' === $text ) {
+		return 0;
+	}
+	return count( preg_split( '/\s+/u', $text ) );
+}
+
+/**
+ * Estimated reading time in minutes for the current post, at 200 words per
+ * minute. Always at least 1 minute, so a short post never reads "0 min read".
+ *
+ * @return int
+ */
+function yesterday_reading_time() {
+	return max( 1, (int) ceil( yesterday_word_count() / 200 ) );
+}
+
+/**
+ * Print the estimated reading time as an entry-meta item, if enabled in the
+ * Customizer (Layout section; default on).
+ */
+function yesterday_meta_reading_time() {
+	if ( ! get_theme_mod( 'yesterday_show_reading_time', true ) ) {
+		return;
+	}
+	$minutes = yesterday_reading_time();
+	echo '<span class="sep">&middot;</span> <span>';
+	printf(
+		/* translators: %d: estimated reading time in minutes. */
+		esc_html( _n( '%d min read', '%d mins read', $minutes, 'yesterday' ) ),
+		(int) $minutes
+	);
+	echo '</span>';
+}
+
+/**
+ * Related posts for the current single post: up to $count posts sharing a
+ * category, falling back to shared tags if the post has no categories (or no
+ * category-mates). Returns an empty array if neither turns up anything —
+ * the caller skips the section entirely rather than filling it with
+ * unrelated "recent posts" filler.
+ *
+ * @param int $count Maximum number of related posts.
+ * @return WP_Post[]
+ */
+function yesterday_get_related_posts( $count = 3 ) {
+	$post_id   = get_the_ID();
+	$base_args = array(
+		'post_type'           => 'post',
+		'posts_per_page'      => $count,
+		'post__not_in'        => array( $post_id ),
+		'ignore_sticky_posts' => true,
+		'orderby'             => 'rand',
+		'no_found_rows'       => true,
+	);
+
+	$categories = wp_get_post_categories( $post_id );
+	if ( ! empty( $categories ) ) {
+		$related = get_posts( array_merge( $base_args, array( 'category__in' => $categories ) ) );
+		if ( ! empty( $related ) ) {
+			return $related;
+		}
+	}
+
+	$tags = wp_get_post_tags( $post_id, array( 'fields' => 'ids' ) );
+	if ( ! empty( $tags ) ) {
+		$related = get_posts( array_merge( $base_args, array( 'tag__in' => $tags ) ) );
+		if ( ! empty( $related ) ) {
+			return $related;
+		}
+	}
+
+	return array();
 }
 
 /* ============================================================

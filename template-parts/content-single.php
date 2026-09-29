@@ -44,6 +44,7 @@
 					<span><time datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>"><?php echo esc_html( get_the_date() ); ?></time></span>
 				<?php
 				yesterday_meta_category();
+				yesterday_meta_reading_time();
 				if ( comments_open() || get_comments_number() ) {
 					echo '<span class="sep">&middot;</span> <span>';
 					comments_number( esc_html__( 'No comments', 'yesterday' ), esc_html__( '1 comment', 'yesterday' ), esc_html__( '% comments', 'yesterday' ) );

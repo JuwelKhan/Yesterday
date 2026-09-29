@@ -24,6 +24,7 @@
 			// the link and the date stays plain.
 			yesterday_meta_date( '' === get_the_title() );
 			yesterday_meta_category();
+			yesterday_meta_reading_time();
 			?>
 		</div>
 

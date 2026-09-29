@@ -173,6 +173,9 @@
 		// "Copy link" share button
 		setupCopyLink();
 
+		// Back-to-top button
+		setupBackToTop();
+
 		// Drop genuinely-empty caption boxes left behind by some imported
 		// content (a .wp-caption with no media and no text). Captions only —
 		// paragraphs and author-intended blank-line spacing are never touched.
@@ -621,6 +624,27 @@
 					}
 				}, 1500 );
 			} );
+		} );
+	}
+
+	// ---------------------------------------------------------------
+	//  Back to top
+	// ---------------------------------------------------------------
+	function setupBackToTop() {
+		var btn = document.querySelector( '.back-to-top' );
+		if ( ! btn ) {
+			return;
+		}
+
+		function toggle() {
+			btn.classList.toggle( 'is-visible', window.scrollY > window.innerHeight );
+		}
+
+		window.addEventListener( 'scroll', toggle, { passive: true } );
+		toggle();
+
+		btn.addEventListener( 'click', function () {
+			window.scrollTo( { top: 0, behavior: 'smooth' } );
 		} );
 	}
 
