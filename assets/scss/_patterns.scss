@@ -1,0 +1,195 @@
+// =============================================================
+//  Block patterns — styles for the theme's own patterns in
+//  /patterns. Each pattern carries a `yesterday-*` class, so
+//  these rules are left unscoped (not tied to .entry-content):
+//  that way they also apply inside the block editor and its
+//  pattern previews. Colours come from the CSS custom properties,
+//  so every pattern follows the Customizer palette and accent.
+//
+//  Selectors combine the block class with the pattern class to
+//  out-rank the generic `.entry-content` block rules (figure
+//  margins, the pullquote treatment, button spacing) without
+//  depending on stylesheet order.
+// =============================================================
+
+// Vertical rhythm inside a pattern's text column. Nested paragraphs don't get
+// the post body's owl spacing (they're reset to margin 0), so set it here; an
+// eyebrow label sits tight against the heading that follows it.
+@mixin stack($gap: 0.75rem) {
+  > * {
+    margin-bottom: 0;
+  }
+
+  > * + * {
+    margin-top: $gap;
+  }
+
+  > .yesterday-eyebrow + * {
+    margin-top: 0.25rem;
+  }
+}
+
+// Small uppercase label above a heading ("About the author", "Chapter one").
+.yesterday-eyebrow {
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+// ----- Author bio -----
+.wp-block-media-text.yesterday-author-bio {
+  padding: 1.5rem;
+  background: var(--chip);
+  border-radius: var(--radius);
+
+  .wp-block-media-text__media {
+    margin: 0;
+
+    img {
+      max-width: 160px;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+  }
+
+  .wp-block-media-text__content {
+    padding: 0 0 0 1.5rem;
+
+    @include stack;
+  }
+
+  .wp-block-buttons {
+    margin-top: 1rem;
+  }
+
+  .wp-block-button {
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 600px) {
+    &.is-stacked-on-mobile .wp-block-media-text__content {
+      padding: 1rem 0 0;
+    }
+
+    .wp-block-media-text__media img {
+      max-width: 120px;
+    }
+  }
+}
+
+// ----- Newsletter call to action -----
+.wp-block-group.yesterday-newsletter {
+  padding: 2rem 1.5rem;
+  background: var(--chip);
+  border-radius: var(--radius);
+  text-align: center;
+
+  @include stack;
+
+  h2 {
+    color: var(--brand);
+  }
+
+  p:not(.yesterday-eyebrow) {
+    max-width: 32rem;
+    margin-inline: auto;
+  }
+
+  .wp-block-buttons {
+    margin-top: 1.25rem;
+  }
+
+  .wp-block-button {
+    margin-bottom: 0;
+  }
+}
+
+// ----- Pull-quote -----
+// Scoped out of the Solid Color style, which keeps core's own look.
+figure.wp-block-pullquote.yesterday-pullquote:not(.is-style-solid-color) {
+  margin-block: 2.5rem;
+  padding: 0 1rem;
+  border: none;
+  text-align: center;
+
+  // Oversized opening quote mark in the accent colour.
+  &::before {
+    content: "\201C";
+    display: block;
+    height: 2.75rem;
+    color: var(--brand);
+    font-family: var(--font-heading);
+    font-size: 5rem;
+    line-height: 1;
+  }
+
+  // Short accent rule under the citation.
+  &::after {
+    content: "";
+    display: block;
+    width: 3rem;
+    height: 2px;
+    margin: 1.5rem auto 0;
+    background: var(--brand);
+  }
+
+  p {
+    color: var(--ink);
+    font-family: var(--font-heading);
+    font-size: 1.6rem;
+    font-style: normal;
+    line-height: 1.4;
+  }
+
+  cite {
+    margin-top: 1rem;
+    color: var(--muted);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+
+    &::before {
+      content: "\2014\00a0";
+    }
+  }
+
+  @media (max-width: 600px) {
+    p {
+      font-size: 1.35rem;
+    }
+  }
+}
+
+// ----- Two-column storytelling -----
+.wp-block-group.yesterday-story {
+  > .wp-block-media-text {
+    margin-block: 0;
+  }
+
+  > .wp-block-media-text + .wp-block-media-text {
+    margin-top: 2.5rem;
+  }
+
+  .wp-block-media-text__media {
+    margin: 0;
+
+    img {
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      border-radius: var(--radius);
+    }
+  }
+
+  .wp-block-media-text__content {
+    @include stack;
+  }
+
+  @media (max-width: 600px) {
+    .is-stacked-on-mobile .wp-block-media-text__content {
+      padding: 1rem 0 0;
+    }
+  }
+}

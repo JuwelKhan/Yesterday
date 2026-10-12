@@ -1,0 +1,118 @@
+// =============================================================
+//  Block styles — the extra options the theme adds to the
+//  editor's Styles panel (registered in functions.php,
+//  yesterday_register_block_styles). Each is an `is-style-*`
+//  class on the block.
+//
+//  Left unscoped (not tied to .entry-content) so the editor
+//  shows the same result. Selectors include the element name
+//  where needed to out-rank the generic `.entry-content` block
+//  rules without depending on stylesheet order.
+// =============================================================
+
+// ----- Image: Polaroid -----
+// A white print frame with a deeper bottom edge for the caption, lifted off the
+// page with a soft shadow. The frame hugs the image instead of spanning the
+// column.
+figure.wp-block-image.is-style-polaroid {
+  width: fit-content;
+  max-width: 100%;
+  padding: 0.75rem 0.75rem 1rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  box-shadow: 0 6px 18px rgba(31, 45, 61, 0.12);
+
+  &.aligncenter {
+    margin-inline: auto;
+  }
+
+  img {
+    display: block;
+    border-radius: 2px;
+  }
+
+  figcaption {
+    margin: 0.75rem 0 0;
+    color: var(--ink-soft);
+    font-family: var(--font-heading);
+    font-size: 0.9rem;
+  }
+}
+
+// ----- Quote: Accent bar -----
+// No panel — a thick accent-coloured bar beside larger, upright text in the
+// heading font, for a quote that should read as a statement.
+blockquote.wp-block-quote.is-style-accent-bar {
+  margin-block: 2rem;
+  padding: 0.25rem 0 0.25rem 1.5rem;
+  background: none;
+  border-left: 6px solid var(--brand);
+  border-radius: 0;
+  color: var(--ink);
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-style: normal;
+  line-height: 1.5;
+
+  > * + * {
+    margin-top: 0.75rem;
+  }
+
+  cite {
+    display: block;
+    margin-top: 0.75rem;
+    color: var(--brand);
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-style: normal;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+}
+
+// ----- Separator: Asterisks -----
+// The classic "* * *" section break, in the accent colour (or the text colour
+// the author picks).
+hr.wp-block-separator.is-style-asterisks {
+  height: auto;
+  border: none;
+  background: none;
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  line-height: 1;
+  text-align: center;
+
+  &:not(.has-text-color) {
+    color: var(--brand);
+  }
+
+  &::before {
+    content: "*\2002*\2002*";
+  }
+}
+
+// ----- Group: Card -----
+// A bordered, rounded panel with padding — for asides, notes or a block of
+// related content. Nested paragraphs don't get the post body's owl spacing, so
+// the card spaces its own children.
+.wp-block-group.is-style-card {
+  padding: 1.5rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: 0 2px 10px rgba(31, 45, 61, 0.06);
+
+  > * {
+    margin-bottom: 0;
+  }
+
+  > :first-child {
+    margin-top: 0;
+  }
+
+  > * + * {
+    margin-top: 1rem;
+  }
+}

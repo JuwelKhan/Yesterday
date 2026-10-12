@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // Theme version, used to cache-bust enqueued assets.
 if ( ! defined( 'YESTERDAY_VERSION' ) ) {
-	define( 'YESTERDAY_VERSION', '1.1.0' );
+	define( 'YESTERDAY_VERSION', '1.2.0' );
 }
 
 /**
@@ -86,6 +86,54 @@ function yesterday_setup() {
 	add_editor_style( 'assets/css/style.css' );
 }
 add_action( 'after_setup_theme', 'yesterday_setup' );
+
+/**
+ * Block pattern category for the theme's own patterns.
+ *
+ * The patterns themselves live in /patterns — WordPress registers every file
+ * there automatically, and their "Categories:" header puts them in this group
+ * in the editor's pattern inserter.
+ */
+function yesterday_register_pattern_category() {
+	register_block_pattern_category(
+		'yesterday',
+		array(
+			'label'       => esc_html__( 'Yesterday', 'yesterday' ),
+			'description' => esc_html__( 'Patterns for writers, from the Yesterday theme.', 'yesterday' ),
+		)
+	);
+}
+add_action( 'init', 'yesterday_register_pattern_category' );
+
+/**
+ * Extra block styles — shown in the editor's Styles panel for each block.
+ * Their CSS is in assets/scss/_block-styles.scss (the `is-style-{name}` class).
+ */
+function yesterday_register_block_styles() {
+	$styles = array(
+		'core/image'     => array(
+			'name'  => 'polaroid',
+			'label' => esc_html__( 'Polaroid', 'yesterday' ),
+		),
+		'core/quote'     => array(
+			'name'  => 'accent-bar',
+			'label' => esc_html__( 'Accent bar', 'yesterday' ),
+		),
+		'core/separator' => array(
+			'name'  => 'asterisks',
+			'label' => esc_html__( 'Asterisks', 'yesterday' ),
+		),
+		'core/group'     => array(
+			'name'  => 'card',
+			'label' => esc_html__( 'Card', 'yesterday' ),
+		),
+	);
+
+	foreach ( $styles as $block => $style ) {
+		register_block_style( $block, $style );
+	}
+}
+add_action( 'init', 'yesterday_register_block_styles' );
 
 /**
  * Enqueue styles and scripts.

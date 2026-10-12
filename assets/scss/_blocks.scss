@@ -55,8 +55,9 @@
   // borderless, centred block), so we scope our rules out of those and let core
   // handle them — adding just a light theme touch rather than fighting it.
   // Default quote — a light-grey panel: the left edge stays square with a solid
-  // brand rule, the right corners are rounded. (Scoped out of the Large style.)
-  .wp-block-quote:not(.is-style-large) {
+  // brand rule, the right corners are rounded. (Scoped out of the Large style,
+  // and the theme's Accent bar style — see _block-styles.scss.)
+  .wp-block-quote:not(.is-style-large):not(.is-style-accent-bar) {
     margin: 1.75rem 0;
     padding: 1.25rem 1.5rem;
     background: var(--chip);
@@ -174,8 +175,14 @@
     border: none;
     border-top: 1px solid var(--line);
 
-    &:not(.is-style-wide):not(.alignwide):not(.alignfull) {
+    &:not(.is-style-wide):not(.is-style-dots):not(.alignwide):not(.alignfull) {
       max-width: 6rem;
+    }
+
+    // Core's Dots style draws its dots as text, so it needs its natural height
+    // and the full width (a 6rem box pushes the centred dots off-centre).
+    &.is-style-dots {
+      height: auto;
     }
   }
 

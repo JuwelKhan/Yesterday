@@ -3,10 +3,10 @@ Contributors: juwelkhan
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.1.0
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Tags: blog, three-columns, two-columns, left-sidebar, right-sidebar, custom-colors, custom-logo, custom-menu, featured-images, footer-widgets, post-formats, threaded-comments, translation-ready, sticky-post
+Tags: blog, three-columns, two-columns, left-sidebar, right-sidebar, custom-colors, custom-logo, custom-menu, featured-images, footer-widgets, post-formats, threaded-comments, translation-ready, sticky-post, block-patterns, block-styles
 
 Yesterday is a calm, content-first classic blog theme for writers and personal bloggers.
 
@@ -33,6 +33,9 @@ Features:
 * Custom "About / Author" page template with a portrait hero.
 * Estimated reading time, related posts, and a back-to-top button, each
   optional from the Customizer.
+* Block patterns for writers (author bio, newsletter call to action,
+  pull-quote, two-column storytelling) and extra block styles (Polaroid
+  image, Accent bar quote, Asterisks separator, Card group).
 * No external HTTP requests — icons and webfonts are bundled and self-hosted.
 
 == Installation ==
@@ -51,6 +54,18 @@ post thumbnails, custom colors via the Customizer) and works with the block
 editor out of the box. No additional plugins are required.
 
 == Changelog ==
+
+= 1.2.0 =
+* New: four block patterns, in their own "Yesterday" category in the
+  editor's pattern inserter — Author bio, Newsletter call to action,
+  Pull-quote, and Two-column storytelling. They follow the Customizer
+  palette and accent colour.
+* New: four block styles in the editor's Styles panel — Polaroid (Image),
+  Accent bar (Quote), Asterisks (Separator), and Card (Group).
+* Fix: WordPress's own "Dots" separator style now keeps its natural height
+  and stays centred.
+* Nothing changes on existing content — the new patterns and styles only
+  apply where you choose to use them.
 
 = 1.1.0 =
 * New: estimated reading time on every post, in listings and on the single
@@ -114,6 +129,8 @@ Yesterday is distributed under the terms of the GNU GPL v2 or later.
 * Playfair Display font (https://github.com/clauseggers/Playfair-Display),
   Copyright The Playfair Display Project Authors, licensed under the SIL Open
   Font License, 1.1 (https://openfontlicense.org/).
+* Block pattern placeholder images (assets/images/patterns/), created for
+  this theme, (C) 2026 Jewel Khan, licensed under the GNU GPL v2 or later.
 
 Screenshot images (demo content shown on the theme preview only, not
 included with the theme download):
