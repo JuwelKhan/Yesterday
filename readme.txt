@@ -18,40 +18,206 @@ three-column on desktop, with post formats, an automatic table of contents,
 and a flexible author card. Designed to look clean on a fresh install, with no
 external requests.
 
-Features:
+Everything below works out of the box with WordPress core — no plugins
+required.
 
-* Three-column desktop layout (left rail, content, right sidebar) with clean
-  mobile stacking.
-* Automatic table of contents with scroll-spy on long posts and pages.
-* Post format support (standard, gallery, image, video, audio, quote, link,
-  status, chat) with dedicated card styling.
-* Custom Author Card widget with photo, bio, social links, and layout options.
-* Deep, multi-level dropdown navigation with edge-aware flyout flipping.
-* Customizer options for color palette / accent color, typography presets
-  (self-hosted webfonts), and layout toggles (header search, author box,
-  sticky sidebars).
-* Custom "About / Author" page template with a portrait hero.
-* Estimated reading time, related posts, and a back-to-top button, each
-  optional from the Customizer.
-* Block patterns for writers (author bio, newsletter call to action,
-  pull-quote, two-column storytelling) and extra block styles (Polaroid
-  image, Accent bar quote, Asterisks separator, Card group).
-* No external HTTP requests — icons and webfonts are bundled and self-hosted.
+= Layout =
+
+* Three-column layout on desktop: a left rail, the content, and a right
+  sidebar. Columns stack cleanly on tablets and phones.
+* Pages use a two-column layout (content + sidebar), adding the left rail
+  only when the page is long enough to need a table of contents.
+* Sticky sidebars: a widget area holding a single widget follows the reader
+  as they scroll (can be turned off in the Customizer).
+
+= Automatic table of contents =
+
+* Any post or page with three or more H2/H3 headings automatically gets a
+  table of contents in the left rail — no shortcode or setup.
+* Scroll-spy highlights the section the reader is currently on.
+* Works with non-Latin headings (Bengali, Arabic and others), not just
+  English.
+* On a post with fewer headings, the left rail shows your Left Sidebar
+  widgets (by default, the Author Card) instead of an empty box.
+
+= Made for writers =
+
+* Standard posts plus nine post formats — aside, gallery, image, video,
+  audio, quote, link, status and chat — each with its own card design, so
+  long essays and quick updates sit well together.
+* Estimated reading time on listings and single posts, counted correctly
+  for non-Latin scripts too.
+* "You might also like" related posts after each article, matched by
+  category, then by tag. Shown only when there is a genuine match — never
+  filled with unrelated posts.
+* Author box at the end of each post, with a byline in the post header.
+* Share buttons on every post: X, Facebook, LinkedIn, email and copy link.
+* Sticky posts get a "Featured" badge.
+* Previous / next post navigation and styled, threaded comments.
+* A back-to-top button that fades in as you scroll.
+
+= Block patterns and block styles =
+
+Ready-made patterns in their own "Yesterday" category in the block
+inserter (+ -> Patterns -> Yesterday):
+
+* Author bio — round portrait, name, short bio and a button.
+* Newsletter call to action — a centred subscribe box.
+* Pull-quote — a large quotation with an accent-coloured quote mark.
+* Two-column storytelling — image-and-text rows that alternate sides.
+
+Extra styles in the block Styles panel:
+
+* Image: Polaroid — a white print-style frame with the caption inside.
+* Quote: Accent bar — a thick accent-coloured bar beside larger text.
+* Separator: Asterisks — the classic "* * *" section break.
+* Group: Card — a bordered, rounded panel for notes and asides.
+
+Core blocks (galleries, quotes, tables, embeds, columns, code, buttons and
+more) are styled to match the theme.
+
+= Author Card widget =
+
+A custom widget for introducing yourself: photo from the Media Library,
+name, role, bio, social links (one URL per line — icons are added
+automatically), a contact link, and a layout option (Auto, Vertical or
+Horizontal). Auto picks the right layout for wherever the widget is placed.
+
+= Pages =
+
+* "About / Author" page template — a portrait hero built from the page's
+  featured image, title, excerpt and your social links.
+* Any page with a featured image gets an image hero with the title (and
+  excerpt, if you write one) over it.
+* Excerpts are enabled for pages, so you have a place to write that intro
+  line.
+
+= Customizer options (Appearance -> Customize) =
+
+* Colours: three palettes (Slate, Warm Sepia, Forest) and an accent colour
+  picker; hover shades are derived automatically.
+* Typography: System, Elegant (Playfair Display + Lora), Modern (Inter),
+  Editorial (Playfair Display + Inter), or Custom — choose body and heading
+  fonts separately. All webfonts are self-hosted.
+* Layout: show or hide the header search, the author box, reading time and
+  related posts; turn sticky sidebars on or off; set the excerpt length.
+* Site Identity: upload a logo, or show the site title as text.
+
+= Menus and social icons =
+
+* Primary Menu with unlimited dropdown levels. Submenus open in whichever
+  direction fits on screen, and work with mouse, touch and keyboard.
+* Social Links Menu: add a Custom Link per profile and the matching icon is
+  chosen automatically — 20+ platforms including Instagram, X, Facebook,
+  YouTube, LinkedIn, GitHub, TikTok, Mastodon, WhatsApp, Telegram and
+  Medium, plus email and RSS links. Shown in the header and footer;
+  hidden when unassigned.
+* With no menu assigned, the header lists your published pages.
+
+= Widgets =
+
+* Three widget areas: Left Sidebar, Right Sidebar and Footer.
+* Sensible default widgets are placed on activation (only in empty areas —
+  your existing widgets are never replaced).
+* Styled for both block widgets and classic widgets: categories, tag cloud,
+  calendar, latest posts, recent comments, archives, search and more.
+* Long widget lists collapse with a "Show more" toggle.
+
+= Images =
+
+* A built-in lightbox for gallery and content images, with previous / next
+  buttons, captions, and keyboard support (arrow keys and Escape).
+* Responsive video embeds and styled image captions.
+
+= Fast and private =
+
+* No external HTTP requests: icons and webfonts are bundled with the theme
+  and served from your own site — no Google Fonts, no CDNs, no tracking.
+
+= Accessible =
+
+* Skip-to-content link and full keyboard navigation.
+* Dropdowns open and close by hover, click or keyboard; Escape closes them.
+* The mobile menu traps focus while open and returns it to the toggle when
+  closed.
+
+= Translation-ready =
+
+* Every text string can be translated, and the theme is ready for
+  WordPress.org language packs.
 
 == Installation ==
 
 1. In your admin panel, go to Appearance -> Themes and click the "Add New" button.
-2. Click "Upload Theme" and use the file upload field to upload the theme zip file.
+2. Search for "Yesterday", or click "Upload Theme" and upload the theme zip file.
 3. Click "Install Now".
 4. Click "Activate" to use your new theme right away.
 
+= Getting started =
+
+1. Appearance -> Customize -> Site Identity: add your logo (or keep the
+   text title) and tagline.
+2. Appearance -> Menus: create a menu and assign it to "Primary Menu". For
+   social icons, create a second menu of Custom Links to your profiles and
+   assign it to "Social Links Menu".
+3. Appearance -> Widgets: personalise the Author Card in the Left Sidebar.
+4. Appearance -> Customize: pick a colour palette, accent colour and font
+   preset.
+5. Write! Use H2/H3 headings in longer posts to get a table of contents,
+   and try the Yesterday patterns from the block inserter.
+
 == Frequently Asked Questions ==
 
-= Does this theme support any plugins? =
+= Does this theme need any plugins? =
 
-Yesterday supports core WordPress features (custom logo, nav menus, widgets,
-post thumbnails, custom colors via the Customizer) and works with the block
-editor out of the box. No additional plugins are required.
+No. Every feature works with WordPress core alone. Yesterday also works
+fully with the block editor.
+
+= Why isn't the table of contents showing? =
+
+A post or page needs at least three H2 or H3 headings. With fewer, the left
+rail shows the Left Sidebar widgets on posts, and pages switch to a
+two-column layout. This is expected.
+
+= Why isn't "You might also like" showing on a post? =
+
+Related posts appear only when another published post shares a category or
+tag with it. Give the post at least one category or tag in common with
+others.
+
+= Social icons aren't showing in the header or footer. =
+
+Create a menu of Custom Links to your profiles under Appearance -> Menus and
+assign it to the "Social Links Menu" location. It stays hidden until
+something is assigned.
+
+= How do I use the block patterns? =
+
+In the block editor, click + -> Patterns -> Yesterday and pick one. After
+inserting, replace the placeholder images with your own (select the image,
+then Replace) — placeholders are served from the theme folder and would
+disappear if you switched themes.
+
+= Can I turn off reading time, related posts or the author box? =
+
+Yes — Appearance -> Customize -> Layout has a switch for each, plus the
+header search and sticky sidebars.
+
+= Does Yesterday load Google Fonts or anything external? =
+
+No. Icons and fonts are bundled with the theme. Choosing the "System" font
+preset uses your visitors' built-in fonts and loads no webfonts at all.
+
+= Will updating Yesterday change my site? =
+
+Updates are designed not to change existing sites: new features use
+defaults that match the previous behaviour, and new options can be switched
+off.
+
+= Where can I get help? =
+
+Ask in the support forum at https://wordpress.org/support/theme/yesterday/
+or open an issue at https://github.com/JuwelKhan/Yesterday/issues.
 
 == Changelog ==
 
@@ -64,6 +230,10 @@ editor out of the box. No additional plugins are required.
   Accent bar (Quote), Asterisks (Separator), and Card (Group).
 * Fix: WordPress's own "Dots" separator style now keeps its natural height
   and stays centred.
+* Fix: the image lightbox's button labels and the "Copied!" message on the
+  copy-link button can now be translated (they were English-only).
+* Improved: a fuller theme description, and readme.txt now describes every
+  feature, with a getting-started guide and an expanded FAQ.
 * Nothing changes on existing content — the new patterns and styles only
   apply where you choose to use them.
 

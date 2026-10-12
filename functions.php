@@ -179,13 +179,18 @@ function yesterday_enqueue_assets() {
 		true // load in the footer.
 	);
 
-	// Translatable strings used by main.js (e.g. the long-list "show more" toggle).
+	// Translatable strings used by main.js (long-list toggle, image lightbox,
+	// copy-link button).
 	wp_localize_script(
 		'yesterday-main',
 		'yesterdayData',
 		array(
-			'showMore' => __( 'Show more', 'yesterday' ),
-			'showLess' => __( 'Show less', 'yesterday' ),
+			'showMore'  => __( 'Show more', 'yesterday' ),
+			'showLess'  => __( 'Show less', 'yesterday' ),
+			'close'     => __( 'Close', 'yesterday' ),
+			'prevImage' => __( 'Previous image', 'yesterday' ),
+			'nextImage' => __( 'Next image', 'yesterday' ),
+			'copied'    => __( 'Copied!', 'yesterday' ),
 		)
 	);
 

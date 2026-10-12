@@ -507,14 +507,21 @@
 			box.setAttribute( 'role', 'dialog' );
 			box.setAttribute( 'aria-modal', 'true' );
 			box.innerHTML =
-				'<button class="yd-lightbox-close" type="button" aria-label="Close"><i class="bi bi-x-lg" aria-hidden="true"></i></button>' +
-				'<button class="yd-lightbox-nav yd-prev" type="button" aria-label="Previous image"><i class="bi bi-chevron-left" aria-hidden="true"></i></button>' +
+				'<button class="yd-lightbox-close" type="button"><i class="bi bi-x-lg" aria-hidden="true"></i></button>' +
+				'<button class="yd-lightbox-nav yd-prev" type="button"><i class="bi bi-chevron-left" aria-hidden="true"></i></button>' +
 				'<figure class="yd-lightbox-figure"><img alt=""><figcaption class="yd-lightbox-caption"></figcaption></figure>' +
-				'<button class="yd-lightbox-nav yd-next" type="button" aria-label="Next image"><i class="bi bi-chevron-right" aria-hidden="true"></i></button>';
+				'<button class="yd-lightbox-nav yd-next" type="button"><i class="bi bi-chevron-right" aria-hidden="true"></i></button>';
 			boxImg = box.querySelector( 'img' );
 			boxCap = box.querySelector( '.yd-lightbox-caption' );
 			btnPrev = box.querySelector( '.yd-prev' );
 			btnNext = box.querySelector( '.yd-next' );
+
+			// Translatable button labels (set as attributes, not via innerHTML,
+			// so a translation can never inject markup).
+			var l10n = window.yesterdayData || {};
+			box.querySelector( '.yd-lightbox-close' ).setAttribute( 'aria-label', l10n.close || 'Close' );
+			btnPrev.setAttribute( 'aria-label', l10n.prevImage || 'Previous image' );
+			btnNext.setAttribute( 'aria-label', l10n.nextImage || 'Next image' );
 			document.body.appendChild( box );
 
 			box.addEventListener( 'click', function ( e ) {
@@ -617,7 +624,7 @@
 					navigator.clipboard.writeText( url );
 				}
 				var original = btn.getAttribute( 'data-tooltip' );
-				btn.setAttribute( 'data-tooltip', 'Copied!' );
+				btn.setAttribute( 'data-tooltip', ( window.yesterdayData || {} ).copied || 'Copied!' );
 				setTimeout( function () {
 					if ( original ) {
 						btn.setAttribute( 'data-tooltip', original );
