@@ -30,6 +30,6 @@ $yd_has_more = count( $yd_lines ) > count( $yd_preview );
 			}
 			?>
 		</div>
-		<a class="read-more" href="<?php the_permalink(); ?>"><?php esc_html_e( 'Read more', 'yesterday' ); ?> <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
+		<?php yesterday_read_more_link(); ?>
 	</div>
 </article>

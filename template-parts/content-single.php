@@ -52,7 +52,12 @@
 				}
 				?>
 			</div>
-			<h1 class="single-title"><?php the_title(); ?></h1>
+			<?php if ( '' !== trim( wp_strip_all_tags( get_the_title() ) ) ) : ?>
+				<h1 class="single-title"><?php the_title(); ?></h1>
+			<?php else : ?>
+				<?php // Title-less (e.g. a status update): still give the page its h1. ?>
+				<h1 class="screen-reader-text"><?php echo esc_html( get_the_date() ); ?></h1>
+			<?php endif; ?>
 		</header>
 
 		<div class="entry-content">
@@ -88,9 +93,9 @@
 		<div class="entry-share">
 			<span class="label"><?php esc_html_e( 'Share:', 'yesterday' ); ?></span>
 			<div class="share-items">
-				<a class="share-btn" data-tooltip="<?php esc_attr_e( 'Share on X', 'yesterday' ); ?>" href="https://twitter.com/intent/tweet?url=<?php echo esc_attr( $yd_share_url ); ?>&amp;text=<?php echo esc_attr( $yd_share_title ); ?>" target="_blank" rel="noopener noreferrer" aria-label="<?php esc_attr_e( 'Share on X', 'yesterday' ); ?>"><i class="bi bi-twitter-x" aria-hidden="true"></i></a>
-				<a class="share-btn" data-tooltip="<?php esc_attr_e( 'Share on Facebook', 'yesterday' ); ?>" href="https://www.facebook.com/sharer/sharer.php?u=<?php echo esc_attr( $yd_share_url ); ?>" target="_blank" rel="noopener noreferrer" aria-label="<?php esc_attr_e( 'Share on Facebook', 'yesterday' ); ?>"><i class="bi bi-facebook" aria-hidden="true"></i></a>
-				<a class="share-btn" data-tooltip="<?php esc_attr_e( 'Share on LinkedIn', 'yesterday' ); ?>" href="https://www.linkedin.com/sharing/share-offsite/?url=<?php echo esc_attr( $yd_share_url ); ?>" target="_blank" rel="noopener noreferrer" aria-label="<?php esc_attr_e( 'Share on LinkedIn', 'yesterday' ); ?>"><i class="bi bi-linkedin" aria-hidden="true"></i></a>
+				<a class="share-btn" data-tooltip="<?php esc_attr_e( 'Share on X', 'yesterday' ); ?>" href="https://twitter.com/intent/tweet?url=<?php echo esc_attr( $yd_share_url ); ?>&amp;text=<?php echo esc_attr( $yd_share_title ); ?>" aria-label="<?php esc_attr_e( 'Share on X', 'yesterday' ); ?>"><i class="bi bi-twitter-x" aria-hidden="true"></i></a>
+				<a class="share-btn" data-tooltip="<?php esc_attr_e( 'Share on Facebook', 'yesterday' ); ?>" href="https://www.facebook.com/sharer/sharer.php?u=<?php echo esc_attr( $yd_share_url ); ?>" aria-label="<?php esc_attr_e( 'Share on Facebook', 'yesterday' ); ?>"><i class="bi bi-facebook" aria-hidden="true"></i></a>
+				<a class="share-btn" data-tooltip="<?php esc_attr_e( 'Share on LinkedIn', 'yesterday' ); ?>" href="https://www.linkedin.com/sharing/share-offsite/?url=<?php echo esc_attr( $yd_share_url ); ?>" aria-label="<?php esc_attr_e( 'Share on LinkedIn', 'yesterday' ); ?>"><i class="bi bi-linkedin" aria-hidden="true"></i></a>
 				<a class="share-btn" data-tooltip="<?php esc_attr_e( 'Share by email', 'yesterday' ); ?>" href="mailto:?subject=<?php echo esc_attr( $yd_share_title ); ?>&amp;body=<?php echo esc_attr( $yd_share_url ); ?>" aria-label="<?php esc_attr_e( 'Share by email', 'yesterday' ); ?>"><i class="bi bi-envelope" aria-hidden="true"></i></a>
 				<button class="share-btn" data-tooltip="<?php esc_attr_e( 'Copy link', 'yesterday' ); ?>" type="button" aria-label="<?php esc_attr_e( 'Copy link', 'yesterday' ); ?>" data-copy-url="<?php echo esc_url( get_permalink() ); ?>"><i class="bi bi-link-45deg" aria-hidden="true"></i></button>
 			</div>

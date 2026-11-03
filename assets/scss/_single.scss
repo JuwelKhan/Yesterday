@@ -209,10 +209,14 @@
     transform: translateX(-50%) translateY(4px);
   }
 
-  &[data-tooltip]:hover::after,
-  &[data-tooltip]:hover::before {
+  // Shown on hover and keyboard focus. While shown it takes the pointer, so
+  // moving onto the tooltip doesn't hide it; Escape hides it (main.js adds
+  // .tooltip-off until the pointer or focus leaves).
+  &[data-tooltip]:is(:hover, :focus-visible):not(.tooltip-off)::after,
+  &[data-tooltip]:is(:hover, :focus-visible):not(.tooltip-off)::before {
     opacity: 1;
     visibility: visible;
+    pointer-events: auto;
     transform: translateX(-50%) translateY(5px);
   }
 }

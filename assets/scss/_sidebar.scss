@@ -87,6 +87,7 @@
   // "Show more / less" toggle appended to very long lists (see main.js).
   .widget-more {
     margin-top: 0.6rem;
+    min-height: 24px; // minimum touch target
     padding: 0;
     border: none;
     background: none;

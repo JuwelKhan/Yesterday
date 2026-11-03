@@ -50,11 +50,12 @@
 			</div>
 
 		</div>
-	</footer>
 
-	<button class="back-to-top" aria-label="<?php esc_attr_e( 'Back to top', 'yesterday' ); ?>">
-		<i class="bi bi-arrow-up" aria-hidden="true"></i>
-	</button>
+		<?php // Fixed to the viewport; kept inside the footer landmark so no content sits outside one. ?>
+		<button class="back-to-top" aria-label="<?php esc_attr_e( 'Back to top', 'yesterday' ); ?>">
+			<i class="bi bi-arrow-up" aria-hidden="true"></i>
+		</button>
+	</footer>
 
 <?php wp_footer(); ?>
 </body>

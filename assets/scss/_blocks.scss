@@ -325,7 +325,6 @@
     font-family: inherit;
 
     &:focus {
-      outline: none;
       border-color: var(--brand);
     }
   }
@@ -645,7 +644,7 @@
     border: 1px solid var(--line);
     border-radius: var(--radius-sm);
     background-color: #fff;
-    background-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='16'%20height='16'%20viewBox='0%200%2016%2016'%20fill='none'%20stroke='%235f7081'%20stroke-width='2'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%3Cpath%20d='M4%206l4%204%204-4'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='16'%20height='16'%20viewBox='0%200%2016%2016'%20fill='none'%20stroke='%23566574'%20stroke-width='2'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%3Cpath%20d='M4%206l4%204%204-4'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 0.7rem center;
     background-size: 0.85rem;
@@ -658,7 +657,6 @@
     -webkit-appearance: none;
 
     &:focus {
-      outline: none;
       border-color: var(--brand);
       box-shadow: 0 0 0 3px rgba(44, 62, 80, 0.08);
     }

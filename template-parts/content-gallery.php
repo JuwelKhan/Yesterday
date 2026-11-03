@@ -48,7 +48,7 @@ if ( empty( $yd_images ) ) {
 
 		<div class="entry-summary"><?php the_excerpt(); ?></div>
 
-		<a class="read-more" href="<?php the_permalink(); ?>"><?php esc_html_e( 'See gallery', 'yesterday' ); ?> <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
+		<?php yesterday_read_more_link( __( 'See gallery', 'yesterday' ) ); ?>
 	</div>
 
 </article>

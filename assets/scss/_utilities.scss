@@ -73,3 +73,11 @@
     pointer-events: auto;
   }
 }
+
+// It floats over light content and the dark footer alike, so its focus ring
+// pairs a light inner band with the brand outline — one of the two always
+// stands out.
+.site-footer .back-to-top:focus-visible {
+  outline-color: var(--brand);
+  box-shadow: 0 0 0 2px var(--surface), 0 8px 20px rgba(31, 45, 61, 0.2);
+}

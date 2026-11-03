@@ -15,6 +15,8 @@ get_header();
 		<?php get_sidebar( 'left' ); ?>
 
 		<main id="main" class="posts">
+			<?php // Every view needs one h1; on the blog index it's for screen readers only. ?>
+			<h1 class="screen-reader-text"><?php echo esc_html( is_home() && ! is_front_page() ? single_post_title( '', false ) : get_bloginfo( 'name' ) ); ?></h1>
 			<?php
 			if ( have_posts() ) :
 				while ( have_posts() ) :

@@ -23,6 +23,18 @@
   &:hover img {
     transform: scale(1.03);
   }
+
+  // The card clips anything outside it, so the focus ring is drawn inside
+  // the image: a brand band with a white line within, visible on any photo.
+  &:focus-visible {
+    outline-width: 3px;
+    outline-offset: -3px;
+
+    img {
+      outline: 2px solid #fff;
+      outline-offset: -5px;
+    }
+  }
 }
 
 .post-thumb-wrap {
@@ -169,7 +181,7 @@
   .entry-meta,
   .entry-meta span,
   .entry-meta a {
-    color: var(--brand-soft);
+    color: var(--on-brand-muted);
   }
 
   // The linked date matches the label beside it; only hover lightens it.
@@ -186,9 +198,15 @@
 
     footer {
       margin-top: 0.75rem;
-      color: var(--brand-soft);
+      color: var(--on-brand-muted);
       font-size: 0.9rem;
       font-style: normal;
+    }
+
+    // A linked source (e.g. in <cite>) would otherwise take the brand colour
+    // and vanish into the card.
+    a {
+      color: inherit;
     }
   }
 }

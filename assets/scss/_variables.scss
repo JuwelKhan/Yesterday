@@ -6,12 +6,12 @@ $bg: #dfe3e8;
 $surface: #ffffff;
 $ink: #1f2d3d;
 $ink-soft: #3e4c59;
-$muted: #5f7081;
+$muted: #566574;
 $line: #e3e8ee;
 $brand: #2c3e50;
 $brand-dark: #22303f;
 $brand-soft: #9fb3c8;
-$brand-soft-light: #b8c6d6;
+$brand-soft-light: #cfd9e4;
 $status: #4c5f72;
 $chip: #eef1f4;
 $radius: 16px;
@@ -24,17 +24,21 @@ $gap: 1.5rem;
   --surface: #ffffff;
   --ink: #1f2d3d;
   --ink-soft: #3e4c59;
-  --muted: #5f7081;
+  --muted: #566574;
   --line: #e3e8ee;
   --brand: #2c3e50;
   --brand-dark: #22303f;
   --brand-soft: #9fb3c8;
-  // Lighter than --brand-soft; reads better on the mid-tone status card.
-  --brand-soft-light: #b8c6d6;
+  // Text on the mid-tone status card (4.5:1 against --status).
+  --brand-soft-light: #cfd9e4;
   // The status format's signature colour (listing card background + single-view
   // left accent).
   --status: #4c5f72;
   --chip: #eef1f4;
+  // Text on --brand backgrounds (header, footer, quote card, archive header):
+  // links/primary text and secondary text. Each keeps 4.5:1 against --brand.
+  --on-brand: #cdd9e5;
+  --on-brand-muted: #9fb3c8;
   --radius: 16px;
   --radius-sm: 10px;
   --maxw: 1320px;

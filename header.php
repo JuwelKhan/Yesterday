@@ -46,7 +46,7 @@
 				<?php endif; ?>
 			</div>
 
-			<button class="nav-toggle" aria-label="<?php esc_attr_e( 'Toggle menu', 'yesterday' ); ?>" aria-expanded="false">
+			<button class="nav-toggle" aria-label="<?php esc_attr_e( 'Toggle menu', 'yesterday' ); ?>" aria-controls="primary-nav" aria-expanded="false">
 				<i class="bi bi-list" aria-hidden="true"></i>
 			</button>
 

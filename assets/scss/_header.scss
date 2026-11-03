@@ -57,7 +57,7 @@
 .site-description {
   padding-left: 0.75rem;
   border-left: 1px solid rgba(255, 255, 255, 0.2);
-  color: var(--brand-soft);
+  color: var(--on-brand-muted);
   font-size: 0.9rem;
 }
 
@@ -86,7 +86,7 @@
   }
 
   a {
-    color: #cdd9e5;
+    color: var(--on-brand);
     font-size: 0.95rem;
     text-decoration: none;
 
@@ -161,7 +161,7 @@
     height: 38px;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.1);
-    color: #cdd9e5;
+    color: var(--on-brand);
     font-size: 1rem;
     text-decoration: none;
     transition: background 0.2s, color 0.2s;

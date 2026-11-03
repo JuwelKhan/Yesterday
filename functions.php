@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // Theme version, used to cache-bust enqueued assets.
 if ( ! defined( 'YESTERDAY_VERSION' ) ) {
-	define( 'YESTERDAY_VERSION', '1.2.0' );
+	define( 'YESTERDAY_VERSION', '1.3.0' );
 }
 
 /**
@@ -72,7 +72,7 @@ function yesterday_setup() {
 	// gallery, caption) instead of the legacy table-based/XHTML fallbacks.
 	add_theme_support(
 		'html5',
-		array( 'search-form', 'comment-form', 'comment-list', 'gallery', 'caption', 'style', 'script' )
+		array( 'search-form', 'comment-form', 'comment-list', 'gallery', 'caption', 'style', 'script', 'navigation-widgets' )
 	);
 
 	// Block-editor alignment support and default core block styling, so
@@ -185,12 +185,13 @@ function yesterday_enqueue_assets() {
 		'yesterday-main',
 		'yesterdayData',
 		array(
-			'showMore'  => __( 'Show more', 'yesterday' ),
-			'showLess'  => __( 'Show less', 'yesterday' ),
-			'close'     => __( 'Close', 'yesterday' ),
-			'prevImage' => __( 'Previous image', 'yesterday' ),
-			'nextImage' => __( 'Next image', 'yesterday' ),
-			'copied'    => __( 'Copied!', 'yesterday' ),
+			'showMore'    => __( 'Show more', 'yesterday' ),
+			'showLess'    => __( 'Show less', 'yesterday' ),
+			'imageViewer' => __( 'Image viewer', 'yesterday' ),
+			'close'       => __( 'Close', 'yesterday' ),
+			'prevImage'   => __( 'Previous image', 'yesterday' ),
+			'nextImage'   => __( 'Next image', 'yesterday' ),
+			'copied'      => __( 'Copied!', 'yesterday' ),
 		)
 	);
 
@@ -225,6 +226,31 @@ function yesterday_excerpt_more( $more ) {
 	return '&hellip;';
 }
 add_filter( 'excerpt_more', 'yesterday_excerpt_more' );
+
+/**
+ * The listing cards' "Read more" link. Screen readers also hear which post it
+ * leads to (its title, or its date for title-less formats), since a page of
+ * identical "Read more" links means nothing out of context.
+ *
+ * @param string $text Visible link text; defaults to "Read more".
+ */
+function yesterday_read_more_link( $text = '' ) {
+	if ( '' === $text ) {
+		$text = __( 'Read more', 'yesterday' );
+	}
+
+	$label = wp_strip_all_tags( get_the_title() );
+	if ( '' === trim( $label ) ) {
+		$label = get_the_date();
+	}
+
+	printf(
+		'<a class="read-more" href="%1$s">%2$s<span class="screen-reader-text">: %3$s</span> <i class="bi bi-arrow-right" aria-hidden="true"></i></a>',
+		esc_url( get_permalink() ),
+		esc_html( $text ),
+		esc_html( $label )
+	);
+}
 
 /**
  * Auto-generated excerpt length in words, from the Customizer (Layout
@@ -847,10 +873,15 @@ class Yesterday_Social_Walker extends Walker_Nav_Menu {
 		$label = ! empty( $item->title ) ? $item->title : '';
 		$icon  = yesterday_social_icon( $url );
 
-		// Honour the menu item's "open in new tab" setting, safely.
+		// Honour the menu item's "open in new tab" setting, safely, and say so
+		// in the link's name.
 		$rel = '';
 		if ( ! empty( $item->target ) ) {
 			$rel = sprintf( ' target="%s" rel="noopener noreferrer"', esc_attr( $item->target ) );
+			if ( '_blank' === $item->target ) {
+				/* translators: %s: social link label, e.g. "Instagram". */
+				$label = sprintf( __( '%s (opens in a new tab)', 'yesterday' ), $label );
+			}
 		}
 
 		$output .= sprintf(
@@ -877,13 +908,16 @@ function yesterday_social_menu( $container_class = 'header-social' ) {
 
 	wp_nav_menu(
 		array(
-			'theme_location'  => 'social',
-			'container'       => 'div',
-			'container_class' => $container_class,
-			'items_wrap'      => '%3$s', // walker emits bare <a> icons — no <ul>.
-			'depth'           => 1,
-			'fallback_cb'     => false,
-			'walker'          => new Yesterday_Social_Walker(),
+			'theme_location'       => 'social',
+			// The header copy already sits inside the primary <nav>; anywhere else
+			// the icons get their own navigation landmark.
+			'container'            => 'header-social' === $container_class ? 'div' : 'nav',
+			'container_aria_label' => __( 'Social links', 'yesterday' ),
+			'container_class'      => $container_class,
+			'items_wrap'           => '%3$s', // walker emits bare <a> icons — no <ul>.
+			'depth'                => 1,
+			'fallback_cb'          => false,
+			'walker'               => new Yesterday_Social_Walker(),
 		)
 	);
 }

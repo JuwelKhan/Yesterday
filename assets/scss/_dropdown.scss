@@ -14,7 +14,7 @@
     padding: 0;
     border: none;
     background: none;
-    color: #cdd9e5;
+    color: var(--on-brand);
     font: inherit;
     font-size: 0.95rem;
     cursor: pointer;
@@ -199,7 +199,7 @@
     a,
     .dropdown-toggle {
       padding: 0.4rem 0;
-      color: #cdd9e5;
+      color: var(--on-brand);
 
       &:hover {
         background: none;

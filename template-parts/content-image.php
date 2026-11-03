@@ -48,6 +48,6 @@ $yd_has_featured = has_post_thumbnail();
 
 		<div class="entry-summary"><?php the_excerpt(); ?></div>
 
-		<a class="read-more" href="<?php the_permalink(); ?>"><?php esc_html_e( 'View photo', 'yesterday' ); ?> <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
+		<?php yesterday_read_more_link( __( 'View photo', 'yesterday' ) ); ?>
 	</div>
 </article>

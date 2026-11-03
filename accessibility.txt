@@ -1,0 +1,43 @@
+=== Accessibility Statement ===
+
+Yesterday aims to be usable by everyone who reads or writes with it: by keyboard, with a screen reader, at large zoom levels and with reduced motion. It is built to meet the WordPress.org Accessibility Ready requirements and to follow WCAG 2.2 at level AA for everything the theme itself outputs. Content added by site owners (posts, images, colours chosen in the Customizer) is the site owner's responsibility.
+
+== Quick Information ==
+
+Accessibility audit completed: No
+Tested to standard and conformance level: WCAG 2.2 AA (partially supports)
+
+== Testing Tools and Methodology ==
+
+Testing was done by the theme's developer; there has been no independent audit yet.
+
+* Keyboard-only testing of every template: skip link, menus and dropdowns, mobile menu, search, comments, share buttons, image viewer and back-to-top.
+* Automated colour-contrast checks of all rendered text in each built-in colour palette (Slate, Warm Sepia, Forest), including hover and focus states and the focus ring itself.
+* Heading-structure and landmark checks on the home page, archives, search, 404, single posts, pages and the About / Author template.
+* Reflow at a 320px viewport (equivalent to 400% zoom) and the WCAG text-spacing test (line height 1.5, letter spacing 0.12em, word spacing 0.16em, paragraph spacing 2em).
+* The operating system's "reduce motion" setting.
+
+Accessibility is re-checked with the same steps before every release.
+
+== Screen Reader Text Class ==
+
+.screen-reader-text
+
+== Accessibility Features ==
+
+* A "Skip to content" link is the first thing on every page.
+* A visible focus ring on every link, button and form field, in a colour that contrasts with its surroundings.
+* Links inside post and comment text are underlined.
+* Dropdown menus open with Enter or Space, close with Escape, and work the same with mouse, touch and keyboard. The mobile menu keeps focus inside it while open.
+* The image viewer moves focus into itself, keeps it there, closes with Escape and returns focus to where you were.
+* "Read more" links tell screen readers which post they lead to.
+* Every built-in colour palette meets 4.5:1 contrast for text.
+* Smooth scrolling and transitions are turned off when your device asks for reduced motion.
+
+== Accessibility Help Contact ==
+
+https://wordpress.org/support/theme/yesterday/
+
+== Where to Report Issues ==
+
+https://github.com/JuwelKhan/Yesterday/issues

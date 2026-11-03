@@ -49,6 +49,63 @@ a {
   color: var(--brand);
 }
 
+// Links inside running text keep their underline (colour alone isn't enough
+// to tell them apart); hover thickens it rather than relying on colour.
+.entry-content,
+.comment-content,
+.textwidget,
+.widget_text {
+  a:hover {
+    text-decoration-thickness: 2px;
+  }
+}
+
+// Honour the reader's "reduce motion" setting: no smooth scrolling, and
+// transitions finish instantly.
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+// ----- Keyboard focus -----
+// One visible ring for every link, button and field: 2px, offset so it sits
+// on the background around the control. Areas with a --brand (or similarly
+// dark) background switch it to the light on-brand colour.
+:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+.site-header,
+.site-footer,
+.archive-header,
+.about-hero-card,
+.page-hero,
+.posts .format-quote,
+.posts .format-status,
+.yd-lightbox {
+  :focus-visible {
+    outline-color: var(--on-brand);
+  }
+}
+
+// The desktop dropdown panel is light, and clips anything outside it.
+@media (min-width: 992px) {
+  .site-header .submenu :focus-visible {
+    outline-color: var(--brand);
+    outline-offset: -2px;
+  }
+}
+
 h1,
 h2,
 h3,
@@ -77,8 +134,11 @@ h4 {
   white-space: nowrap;
   border: 0;
   border-radius: 0 0 8px 0;
-  background: var(--brand);
-  color: #fff;
+  // Light on the dark header it overlaps, so it stands out when revealed.
+  background: var(--surface);
+  color: var(--brand);
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(31, 45, 61, 0.25);
 
   &:focus {
     width: auto;
@@ -89,6 +149,7 @@ h4 {
     clip: auto;
     clip-path: none;
     white-space: normal;
+    outline-offset: -5px; // inside the light box, not on the dark header
   }
 }
 
@@ -112,6 +173,29 @@ h4 {
   margin: -1px;
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
   white-space: nowrap;
+  word-wrap: normal !important;
   border: 0;
+
+  // WordPress's standard reveal, for any focusable screen-reader text.
+  &:focus {
+    top: 5px;
+    left: 5px;
+    z-index: 100000;
+    display: block;
+    width: auto;
+    height: auto;
+    padding: 15px 23px 14px;
+    clip: auto !important;
+    clip-path: none;
+    border-radius: 3px;
+    background-color: #f1f1f1;
+    box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
+    color: #21759b;
+    font-size: 0.875rem;
+    font-weight: 700;
+    line-height: normal;
+    text-decoration: none;
+  }
 }

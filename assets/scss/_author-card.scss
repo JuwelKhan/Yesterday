@@ -116,12 +116,12 @@
   }
 
   .author-role {
-    color: var(--brand-soft);
+    color: var(--on-brand-muted);
   }
 
   .author-social a {
     background: rgba(255, 255, 255, 0.1);
-    color: #cdd9e5;
+    color: var(--on-brand);
 
     &:hover {
       background: rgba(255, 255, 255, 0.22);
@@ -130,7 +130,7 @@
   }
 
   .author-contact {
-    color: #cdd9e5;
+    color: var(--on-brand);
 
     &:hover { color: #fff; }
   }

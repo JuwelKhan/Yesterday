@@ -3,10 +3,10 @@ Contributors: juwelkhan
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.2.0
+Stable tag: 1.3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Tags: blog, three-columns, two-columns, left-sidebar, right-sidebar, custom-colors, custom-logo, custom-menu, featured-images, footer-widgets, post-formats, threaded-comments, translation-ready, sticky-post, block-patterns, block-styles
+Tags: blog, three-columns, two-columns, left-sidebar, right-sidebar, custom-colors, custom-logo, custom-menu, featured-images, footer-widgets, post-formats, threaded-comments, translation-ready, sticky-post, block-patterns, block-styles, accessibility-ready
 
 Yesterday is a calm, content-first classic blog theme for writers and personal bloggers.
 
@@ -134,12 +134,21 @@ Horizontal). Auto picks the right layout for wherever the widget is placed.
 * No external HTTP requests: icons and webfonts are bundled with the theme
   and served from your own site — no Google Fonts, no CDNs, no tracking.
 
-= Accessible =
+= Accessibility ready =
+
+Built to the WordPress.org Accessibility Ready requirements (see
+accessibility.txt in the theme folder for details and how it was tested).
 
 * Skip-to-content link and full keyboard navigation.
+* A clearly visible focus ring on every link, button and form field.
+* Readable text contrast (at least 4.5:1) in every built-in colour palette.
+* Links inside posts and comments are underlined, not shown by colour alone.
 * Dropdowns open and close by hover, click or keyboard; Escape closes them.
-* The mobile menu traps focus while open and returns it to the toggle when
-  closed.
+* The mobile menu and the image lightbox keep keyboard focus inside while
+  open, close with Escape, and return focus to where you were.
+* "Read more" links tell screen readers which post they lead to.
+* Smooth scrolling and animations switch off when your device asks for
+  reduced motion.
 
 = Translation-ready =
 
@@ -220,6 +229,31 @@ Ask in the support forum at https://wordpress.org/support/theme/yesterday/
 or open an issue at https://github.com/JuwelKhan/Yesterday/issues.
 
 == Changelog ==
+
+= 1.3.0 =
+* New: Yesterday is now Accessibility Ready, with an accessibility.txt
+  statement in the theme folder.
+* New: a visible keyboard focus ring on every link, button and form field
+  (previously form fields hid it), light-coloured inside dark areas such as
+  the header and footer.
+* Improved: text contrast now reaches at least 4.5:1 in all three palettes.
+  Grey meta text is slightly darker everywhere; in Warm Sepia and Forest
+  the header tagline and footer text are lighter; status-card text is
+  brighter.
+* Improved: "Read more", "See gallery" and "View photo" links tell screen
+  readers which post they open; the blog index and title-less posts now
+  have a (screen-reader) main heading.
+* Improved: the image lightbox moves focus into itself, keeps it there,
+  and returns it on close; share-button tooltips also appear on keyboard
+  focus and close with Escape; "Copied!" is announced to screen readers.
+* Improved: smooth scrolling and transitions turn off when your device asks
+  for reduced motion; the back-to-top button returns keyboard focus to the
+  top of the page.
+* Changed: the X, Facebook and LinkedIn share buttons now open in the same
+  tab instead of a new one. Social menu links set to open in a new tab now
+  say so to screen readers.
+* Fix: a linked source inside a quote-format card was invisible (same colour
+  as the card).
 
 = 1.2.0 =
 * New: four block patterns, in their own "Yesterday" category in the

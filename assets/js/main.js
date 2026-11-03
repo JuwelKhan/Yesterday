@@ -172,6 +172,7 @@
 
 		// "Copy link" share button
 		setupCopyLink();
+		setupTooltipDismiss();
 
 		// Back-to-top button
 		setupBackToTop();
@@ -465,7 +466,7 @@
 			return;
 		}
 
-		var box, boxImg, boxCap, btnPrev, btnNext;
+		var box, boxImg, boxCap, btnPrev, btnNext, returnFocus;
 		var group = [];
 		var index = 0;
 
@@ -519,6 +520,7 @@
 			// Translatable button labels (set as attributes, not via innerHTML,
 			// so a translation can never inject markup).
 			var l10n = window.yesterdayData || {};
+			box.setAttribute( 'aria-label', l10n.imageViewer || 'Image viewer' );
 			box.querySelector( '.yd-lightbox-close' ).setAttribute( 'aria-label', l10n.close || 'Close' );
 			btnPrev.setAttribute( 'aria-label', l10n.prevImage || 'Previous image' );
 			btnNext.setAttribute( 'aria-label', l10n.nextImage || 'Next image' );
@@ -543,6 +545,15 @@
 				}
 				if ( 'Escape' === e.key ) {
 					close();
+				} else if ( 'Tab' === e.key ) {
+					// Keep keyboard focus inside the open viewer.
+					var buttons = Array.prototype.filter.call( box.querySelectorAll( 'button' ), function ( b ) {
+						return 'none' !== b.style.display;
+					} );
+					var i = buttons.indexOf( document.activeElement );
+					var next = e.shiftKey ? i - 1 : i + 1;
+					e.preventDefault();
+					buttons[ ( next + buttons.length ) % buttons.length ].focus();
 				} else if ( 'ArrowLeft' === e.key ) {
 					show( index - 1 );
 				} else if ( 'ArrowRight' === e.key ) {
@@ -575,14 +586,21 @@
 			} );
 			var start = imgs.indexOf( startImg );
 			show( start < 0 ? 0 : start );
+			returnFocus = document.activeElement;
 			box.classList.add( 'is-open' );
 			document.body.style.overflow = 'hidden';
+			box.querySelector( '.yd-lightbox-close' ).focus();
 		}
 
 		function close() {
 			if ( box ) {
 				box.classList.remove( 'is-open' );
 				document.body.style.overflow = '';
+				// Back to whatever opened the viewer (e.g. the image link).
+				if ( returnFocus && returnFocus.focus ) {
+					returnFocus.focus();
+				}
+				returnFocus = null;
 			}
 		}
 
@@ -618,19 +636,59 @@
 	function setupCopyLink() {
 		var buttons = document.querySelectorAll( '.share-btn[data-copy-url]' );
 		buttons.forEach( function ( btn ) {
+			// The tooltip is visual only, so screen readers get the
+			// "Copied!" confirmation through a polite live region.
+			var status = document.createElement( 'span' );
+			status.className = 'screen-reader-text';
+			status.setAttribute( 'aria-live', 'polite' );
+			btn.parentNode.appendChild( status );
+
 			btn.addEventListener( 'click', function () {
 				var url = btn.getAttribute( 'data-copy-url' );
+				var copied = ( window.yesterdayData || {} ).copied || 'Copied!';
 				if ( navigator.clipboard && navigator.clipboard.writeText ) {
 					navigator.clipboard.writeText( url );
 				}
 				var original = btn.getAttribute( 'data-tooltip' );
-				btn.setAttribute( 'data-tooltip', ( window.yesterdayData || {} ).copied || 'Copied!' );
+				btn.setAttribute( 'data-tooltip', copied );
+				status.textContent = copied;
 				setTimeout( function () {
 					if ( original ) {
 						btn.setAttribute( 'data-tooltip', original );
 					}
+					status.textContent = '';
 				}, 1500 );
 			} );
+		} );
+	}
+
+	// ---------------------------------------------------------------
+	//  Share-button tooltips: Escape hides the one showing, until the
+	//  pointer or focus leaves that button.
+	// ---------------------------------------------------------------
+	function setupTooltipDismiss() {
+		var buttons = document.querySelectorAll( '.share-btn[data-tooltip]' );
+		if ( ! buttons.length ) {
+			return;
+		}
+
+		document.addEventListener( 'keydown', function ( e ) {
+			if ( 'Escape' !== e.key ) {
+				return;
+			}
+			buttons.forEach( function ( btn ) {
+				if ( btn.matches( ':hover' ) || btn === document.activeElement ) {
+					btn.classList.add( 'tooltip-off' );
+				}
+			} );
+		} );
+
+		buttons.forEach( function ( btn ) {
+			function reset() {
+				btn.classList.remove( 'tooltip-off' );
+			}
+			btn.addEventListener( 'mouseleave', reset );
+			btn.addEventListener( 'blur', reset );
 		} );
 	}
 
@@ -650,8 +708,19 @@
 		window.addEventListener( 'scroll', toggle, { passive: true } );
 		toggle();
 
-		btn.addEventListener( 'click', function () {
-			window.scrollTo( { top: 0, behavior: 'smooth' } );
+		btn.addEventListener( 'click', function ( e ) {
+			var reduce = window.matchMedia && window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches;
+			window.scrollTo( { top: 0, behavior: reduce ? 'auto' : 'smooth' } );
+
+			// The button hides once we're at the top, so a keyboard user would
+			// lose their place; hand focus to the first item on the page.
+			// (detail is 0 when the click came from Enter/Space, not a mouse.)
+			if ( e.detail === 0 ) {
+				var skip = document.querySelector( '.skip-link' );
+				if ( skip ) {
+					skip.focus( { preventScroll: true } );
+				}
+			}
 		} );
 	}
 
